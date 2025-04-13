@@ -1,0 +1,9 @@
+2 + 1 + 3
+/*comentario
+teste 
+multiplo
+*/
+#comentario unico
+4 - 4 + Ias
+16 - 8832.2
+if
