@@ -19,6 +19,9 @@ soma 			        \+|-
 id			            {letter}({letter}|{digit})*
 comment 		        "#".*|"/*"(.*|{ws})*"*/"
 relop                   <=|<|>|>=|==|!=
+abrechave               \{
+fechachave              \}
+atribuicao              =
 other                   .
 
 
@@ -34,12 +37,15 @@ other                   .
 {comment}		    {}
 {num}		        { fprintf(yyout,"%s (NUM)\n",yytext);}
 {reservedword}		{ fprintf(yyout, "%s (RESERVEDWORD)\n", yytext);}
-{relop}		        { fprintf(yyout, "%s (RELOP))\n", yytext);}
+{relop}		        { fprintf(yyout, "%s (RELOP)\n", yytext);}
 {if}		        { fprintf(yyout, "%s (IF)\n", yytext);}
 {else}		        { fprintf(yyout, "%s (ELSE)\n", yytext);}
 {while}		        { fprintf(yyout, "%s (WHILE)\n", yytext);}
 {string}            { fprintf(yyout, "%s (string) \n", yytext);}
 {id}			    { fprintf(yyout, "%s (ID) \n", yytext);}
+{abrechave}         { fprintf(yyout, "%s (ABRECHAVE)\n", yytext);}
+{fechachave}        { fprintf(yyout, "%s (FECHACHAVE)\n", yytext);}
+{atribuicao}        { fprintf(yyout, "%s (ATRIBUICAO)\n", yytext);}  
 {other}             { fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
 
 
