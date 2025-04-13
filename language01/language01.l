@@ -6,6 +6,7 @@
 delim                   [ \t\n]
 ws                      {delim}+
 reservedword			"if"|"else"|"int"|"float"|"struct"|"return"|"void"
+string                  \"[^\n"]*\"
 digit					[0-9]
 int			    {digit}+
 float			{digit}+(\.{digit}+)?
@@ -27,6 +28,7 @@ other                   .
 {int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 {float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
 {reservedword}		{ fprintf(yyout, "%s (RESERVEDWORD)\n", yytext);}
+{string}                { fprintf(yyout, "%s (string) \n", yytext);}
 {id}			{ fprintf(yyout, "%s (ID) \n", yytext);}
 {other}                 { fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
 
