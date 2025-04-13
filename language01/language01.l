@@ -3,21 +3,24 @@
 #include<stdio.h>
 %}
 
-delim                   [ \t\n]
 ws                      {delim}+
-datatype                "int"|"float"|"struct"
-reservedword			"if"|"else"|{datatype}|"return"|"void"
+delim                   [ \t\n]
+letter 			        [a-zA-z]
 digit					[0-9]
+datatype                "int"|"float"|"char"|"struct"|"string"
+reservedword			{datatype}|"return"|"void"
+if                      "if"
+else                    "else"
+while                   "while"
 num                     {digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
-int			    {digit}+
-float			{digit}+(\.{digit}+)?
-mult            \*|\/
-soma 			\+|-
-letter 			[a-zA-z]
-id			    {letter}({letter}|{digit})*
-comment 		"#".*|"/*"(.*|{ws})*"*/"
+mult                    \*|\/
+soma 			        \+|-
+id			            {letter}({letter}|{digit})*
+comment 		        "#".*|"/*"(.*|{ws})*"*/"
+relop                   <=|<|>|>=|==|!=
 other                   .
+
 
 
 %%
@@ -25,17 +28,19 @@ other                   .
 /*----------------------------- Rules -----------------------------*/
 %}
 	
-{ws}			{}
-{soma}			{fprintf(yyout, "%s (SOMA) \n", yytext);}
-{mult}			{fprintf(yyout, "%s (MULT) \n", yytext);}	
-{comment}		{}
+{ws}			    {}
+{soma}			    { fprintf(yyout, "%s (SOMA) \n", yytext);}
+{mult}			    { fprintf(yyout, "%s (MULT) \n", yytext);}	
+{comment}		    {}
 {num}		        { fprintf(yyout,"%s (NUM)\n",yytext);}
-{int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
-{float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
 {reservedword}		{ fprintf(yyout, "%s (RESERVEDWORD)\n", yytext);}
-{string}                { fprintf(yyout, "%s (string) \n", yytext);}
-{id}			{ fprintf(yyout, "%s (ID) \n", yytext);}
-{other}                 { fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
+{relop}		        { fprintf(yyout, "%s (RELOP))\n", yytext);}
+{if}		        { fprintf(yyout, "%s (IF)\n", yytext);}
+{else}		        { fprintf(yyout, "%s (ELSE)\n", yytext);}
+{while}		        { fprintf(yyout, "%s (WHILE)\n", yytext);}
+{string}            { fprintf(yyout, "%s (string) \n", yytext);}
+{id}			    { fprintf(yyout, "%s (ID) \n", yytext);}
+{other}             { fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
 
 
 %%

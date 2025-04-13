@@ -5,8 +5,8 @@ multiplo
 */
 #comentario unico
 4 - 4 + Ias
-16 - 8832.2
+16 / 8832.2
 if
-int 1234
+int 1234 * 1234
 float 12.0
 
