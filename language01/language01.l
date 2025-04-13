@@ -5,10 +5,12 @@
 
 delim                   [ \t\n]
 ws                      {delim}+
-reservedword			"if"|"else"|"int"|"float"|"struct"|"return"|"void"
+datatype                "int"|"float"|"struct"
+reservedword			"if"|"else"|{datatype}|"return"|"void"
 digit					[0-9]
 int			    {digit}+
 float			{digit}+(\.{digit}+)?
+mult            \*|\/
 soma 			\+|-
 letter 			[a-zA-z]
 id			    {letter}({letter}|{digit})*
@@ -23,6 +25,7 @@ other                   .
 	
 {ws}			{}
 {soma}			{fprintf(yyout, "%s (SOMA) \n", yytext);}
+{mult}			{fprintf(yyout, "%s (MULT) \n", yytext);}
 {comment}		{}		
 {int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 {float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
