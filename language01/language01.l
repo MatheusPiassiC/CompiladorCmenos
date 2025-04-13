@@ -5,9 +5,10 @@
 
 delim                   [ \t\n]
 ws                      {delim}+
-reservedword			"if"|"else"|"int"|"float"|"struct"|"return"|"void"
-string                  \"[^\n"]*\"
 digit					[0-9]
+reservedword			"if"|"else"|"int"|"float"|"struct"|"return"|"void"
+num                     {digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
+string                  \"[^\n"]*\"
 int			    {digit}+
 float			{digit}+(\.{digit}+)?
 soma 			\+|-
@@ -24,7 +25,8 @@ other                   .
 	
 {ws}			{}
 {soma}			{fprintf(yyout, "%s (SOMA) \n", yytext);}
-{comment}		{}		
+{comment}		{}
+{num}		        { fprintf(yyout,"%s (NUM)\n",yytext);}
 {int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 {float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
 {reservedword}		{ fprintf(yyout, "%s (RESERVEDWORD)\n", yytext);}
