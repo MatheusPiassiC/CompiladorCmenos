@@ -5,7 +5,7 @@
 
 delim                   [ \t\n]
 ws                      {delim}+
-ifelse			"if"|"else"
+reservedword			"if"|"else"|"int"|"float"|"struct"|"return"|"void"
 digit					[0-9]
 int			    {digit}+
 float			{digit}+(\.{digit}+)?
@@ -26,7 +26,7 @@ other                   .
 {comment}		{}		
 {int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 {float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
-{ifelse}		{ fprintf(yyout, "%s (IF ELSE)\n", yytext);}
+{reservedword}		{ fprintf(yyout, "%s (RESERVEDWORD)\n", yytext);}
 {id}			{ fprintf(yyout, "%s (ID) \n", yytext);}
 {other}                 { fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
 
