@@ -7,13 +7,12 @@ delim                   [ \t\n]
 ws                      {delim}+
 ifelse			"if"|"else"
 digit					[0-9]
-int			{digit}+
+int			    {digit}+
 float			{digit}+(\.{digit}+)?
 soma 			\+|-
 letter 			[a-zA-z]
-id			{letter}({letter}|{digit})*
-commentUni 		"#".*
-commentMult		"/*"(.*|{ws})*"*/"
+id			    {letter}({letter}|{digit})*
+comment 		"#".*|"/*"(.*|{ws})*"*/"
 other                   .
 
 
@@ -24,8 +23,7 @@ other                   .
 	
 {ws}			{}
 {soma}			{fprintf(yyout, "%s (SOMA) \n", yytext);}
-{commentUni}		{}
-{commentMult}		{}
+{comment}		{}		
 {int}			{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 {float}                 { fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
 {ifelse}		{ fprintf(yyout, "%s (IF ELSE)\n", yytext);}

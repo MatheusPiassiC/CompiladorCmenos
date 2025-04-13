@@ -351,8 +351,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 10
-#define YY_END_OF_BUFFER 11
+#define YY_NUM_RULES 9
+#define YY_END_OF_BUFFER 10
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,9 +362,9 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[30] =
     {   0,
-        0,    0,   11,    9,    1,    1,    3,    2,    9,    5,
-        8,    8,    8,    1,    3,    0,    0,    5,    8,    8,
-        7,    0,    0,    0,    0,    6,    8,    4,    0
+        0,    0,   10,    8,    1,    1,    3,    2,    8,    4,
+        7,    7,    7,    1,    3,    0,    0,    4,    7,    7,
+        6,    0,    0,    0,    0,    5,    7,    3,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -681,10 +681,10 @@ YY_DECL
 		}
 
 	{
-#line 20 "language01.l"
+#line 19 "language01.l"
 
 
-#line 23 "language01.l"
+#line 22 "language01.l"
 /*----------------------------- Rules -----------------------------*/
 
 	
@@ -748,56 +748,51 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 26 "language01.l"
+#line 25 "language01.l"
 {}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "language01.l"
+#line 26 "language01.l"
 {fprintf(yyout, "%s (SOMA) \n", yytext);}
 	YY_BREAK
 case 3:
+/* rule 3 can match eol */
 YY_RULE_SETUP
-#line 28 "language01.l"
-{}
+#line 27 "language01.l"
+{}		
 	YY_BREAK
 case 4:
-/* rule 4 can match eol */
 YY_RULE_SETUP
-#line 29 "language01.l"
-{}
+#line 28 "language01.l"
+{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "language01.l"
-{ fprintf(yyout,"%d (INT)\n",atoi(yytext));}
+#line 29 "language01.l"
+{ fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 31 "language01.l"
-{ fprintf(yyout,"%.2f (FLOAT)\n",atof(yytext)); }
+#line 30 "language01.l"
+{ fprintf(yyout, "%s (IF ELSE)\n", yytext);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "language01.l"
-{ fprintf(yyout, "%s (IF ELSE)\n", yytext);}
+#line 31 "language01.l"
+{ fprintf(yyout, "%s (ID) \n", yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 33 "language01.l"
-{ fprintf(yyout, "%s (ID) \n", yytext);}
+#line 32 "language01.l"
+{ fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 34 "language01.l"
-{ fprintf(yyout, "Lexical error. Input -> \"%s\"\n", yytext); }
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
-#line 37 "language01.l"
+#line 35 "language01.l"
 ECHO;
 	YY_BREAK
-#line 801 "lex.yy.c"
+#line 796 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1802,7 +1797,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 37 "language01.l"
+#line 35 "language01.l"
 
 /*------------------------ User subrotines ------------------------*/
 int main(int argc, char *argv[]){
