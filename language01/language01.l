@@ -38,13 +38,13 @@ while                   "while"
 for                     "for"
 
 
-id			            {letter}({letter}|{digit}|(_{letter}|_{digit})?)*
+id			            {letter}({letter}|{digit}|_({letter}|{digit}))*
 int                     {digit}{digit}*
 num                     {digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
 soma 			        \+|\-
-comment 		        "#".*|"/*"(.*|{ws})*"*/"
+comment 		        "#".*|"/*"(.*|\n)*"*/"
 
 
 other                   .
@@ -82,17 +82,17 @@ other                   .
 {fechachave}        { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {atribuicao}        { fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {boolean}           { fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{abreparenteses}       { fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{fechaparenteses}   { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{abreparenteses}    { fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{fechaparenteses}   { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {abrecolchete}      { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {fechacolchete}     { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {not}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 
 {digit}+\.{digit}+\.{digit}*                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
 {digit}+{letter}({letter}|{digit})+         { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
-"/*"(.*|{ws})*                              { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Comentários do tipo multilinha devem terminar em \"*/\"\n", line_number, column_number,yytext);}
-\"[^\n"]*|[^\n"]*\"                         { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);}
-{digit}+(\,{digit}+)?(e(\+|\-)?{digit}+)?   { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números em ponto flutuante devem ser escritos com \".\"\n", line_number, column_number,yytext);}
+\"[^\n"]*                                   { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);}
+{digit}+(\,{digit}+)?(e(\+|\-)?{digit}+)?   { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números do tipo ponto flutuante devem ser escritos com \".\"\n", line_number, column_number,yytext);}  
+{letter}({letter}|{digit}|(_{letter}|_{digit})|[@$&^~])* { fprintf(yyout, "%-5d | %-6d | %-20s ID com simbolo inválido\n", line_number, column_number,yytext);}
 {other}                                     { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 
