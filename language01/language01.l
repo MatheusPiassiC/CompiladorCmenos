@@ -82,8 +82,8 @@ other                   .
 {fechachave}        { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {atribuicao}        { fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {boolean}           { fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{abreparente}       { fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{fechaparente}      { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{abreparenteses}       { fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{fechaparenteses}   { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {abrecolchete}      { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {fechacolchete}     { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {not}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng;}
