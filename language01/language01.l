@@ -62,6 +62,10 @@ other                   .
 {soma}              { fprintf(yyout, "%-5d | %-6d | %-20s | (SOMA)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {mult}              { fprintf(yyout, "%-5d | %-6d | %-20s | (MULT)\n", line_number, column_number, yytext); column_number+=yyleng;}    
 {comment}           { column_number = 1;}
+
+{digit}\.{digit}+\.{digit}*                 { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
+{digit}+{letter}({letter}|{digit})+ { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
+
 {int}               { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {num}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUM)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {reservedword}      { fprintf(yyout, "%-5d | %-6d | %-20s | (RESERVEDWORD)\n", line_number, column_number, yytext); column_number+=yyleng;}
@@ -70,12 +74,12 @@ other                   .
 {relop}             { fprintf(yyout, "%-5d | %-6d | %-20s | (RELOP)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {if}                { fprintf(yyout, "%-5d | %-6d | %-20s | (IF)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {else}              { fprintf(yyout, "%-5d | %-6d | %-20s | (ELSE)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{for}               { fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {while}             { fprintf(yyout, "%-5d | %-6d | %-20s | (WHILE)\n", line_number, column_number, yytext); column_number+=yyleng;}
-
-[^a-zA-Z]?{digit}({letter}|{digit})+ { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 {string}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {id}                { fprintf(yyout, "%-5d | %-6d | %-20s | (ID)\n", line_number, column_number, yytext); column_number+=yyleng;}
+
 {abrechave}         { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECHAVE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {fechachave}        { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {atribuicao}        { fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng;}
@@ -85,7 +89,6 @@ other                   .
 {abrecolchete}      { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {fechacolchete}     { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {not}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{for}               { fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng;}
 
 {other}             { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
