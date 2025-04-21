@@ -90,6 +90,9 @@ other                   .
 
 {digit}+\.{digit}+\.{digit}*                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
 {digit}+{letter}({letter}|{digit})+         { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
+"/*"(.*|{ws})*                              { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Comentários do tipo multilinha devem terminar em \"*/\"\n", line_number, column_number,yytext);}
+\"[^\n"]*|[^\n"]*\"                         { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);}
+{digit}+(\,{digit}+)?(e(\+|\-)?{digit}+)?   { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números em ponto flutuante devem ser escritos com \".\"\n", line_number, column_number,yytext);}
 {other}                                     { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 
