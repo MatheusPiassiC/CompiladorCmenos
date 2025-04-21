@@ -18,8 +18,8 @@ relop                   <=|<|>|>=|==|!=
 
 abrechave               \{
 fechachave              \}
-abreparente             \(    
-fechaparente            \)
+abreparenteses          \(    
+fechaparenteses         \)
 abrecolchete            \[
 fechacolchete           \]
 
@@ -40,10 +40,10 @@ for                     "for"
 
 id			            {letter}({letter}|{digit}|(_{letter}|_{digit})?)*
 int                     {digit}{digit}*
-num                     ("+"|"-")?{digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
+num                     {digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
-soma 			        \+|-
+soma 			        \+|\-
 comment 		        "#".*|"/*"(.*|{ws})*"*/"
 
 
@@ -63,8 +63,6 @@ other                   .
 {mult}              { fprintf(yyout, "%-5d | %-6d | %-20s | (MULT)\n", line_number, column_number, yytext); column_number+=yyleng;}    
 {comment}           { column_number = 1;}
 
-{digit}\.{digit}+\.{digit}*                 { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
-{digit}+{letter}({letter}|{digit})+ { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 {int}               { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {num}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUM)\n", line_number, column_number, yytext); column_number+=yyleng;}
@@ -90,7 +88,10 @@ other                   .
 {fechacolchete}     { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {not}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 
-{other}             { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
+{digit}+\.{digit}+\.{digit}*                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
+{digit}+{letter}({letter}|{digit})+         { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
+{other}                                     { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
+
 
 
 
