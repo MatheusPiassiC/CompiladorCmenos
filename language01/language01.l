@@ -39,7 +39,7 @@ for                     "for"
 
 
 id			            {letter}({letter}|{digit}|_({letter}|{digit}))*
-numint                  {digit}{digit}*
+numint                  {digit}{digit}*(e(\+|\-)?{digit}+)?
 numfloat                {digit}+(\.{digit}+)(e(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
