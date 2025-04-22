@@ -1,0 +1,35 @@
+int x = 5;
+float y = 3.14;
+string nome = "Joao";
+struct pessoa {
+    int idade;
+};
+
+if (x < 10) {
+    x = x + 1;
+} else {
+    x = x - 1;
+}
+
+for (int i = 0; i < 10; i = i + 1) {
+    y = y * 2;
+}
+
+while (x != 0) {
+    x = x - 1;
+}
+
+boolean flag = true;
+flag = !flag;
+
+# Comentário simples
+/* Comentário 
+   multilinha */
+
+x = 10, y = 20;
+
+vetor[0] = 1;
+
+return;
+
+void funcao_invalida() {}

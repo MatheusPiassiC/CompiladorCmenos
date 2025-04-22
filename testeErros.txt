@@ -1,0 +1,6 @@
+123.45.67.121.234              
+42abc                  
+"isso é uma string     
+3,14                   
+variavel@errada        
+@                      

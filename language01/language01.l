@@ -87,7 +87,7 @@ other                   .
 {fechacolchete}     { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {not}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 
-{digit}+\.{digit}+\.{digit}*                             { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
+{digit}+\.{digit}+(\.|{digit})*                             { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
 {digit}+{letter}({letter}|{digit})+                      { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
 \"[^\n"]*                                                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);}
 {digit}+(\,{digit}+)?(e(\+|\-)?{digit}+)?                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números do tipo ponto flutuante devem ser escritos com \".\"\n", line_number, column_number,yytext);}  
