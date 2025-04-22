@@ -39,8 +39,8 @@ for                     "for"
 
 
 id			            {letter}({letter}|{digit}|_({letter}|{digit}))*
-int                     {digit}{digit}*
-num                     {digit}+(\.{digit}+)?(e(\+|\-)?{digit}+)?
+numint                  {digit}{digit}*
+numfloat                {digit}+(\.{digit}+)(e(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
 soma 			        \+|\-
@@ -63,8 +63,8 @@ other                   .
 {comment}           { column_number = 1;}
 
 
-{int}               { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng;}
-{num}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUM)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{numint}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng;}
+{numfloat}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMFLOAT)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {reservedword}      { fprintf(yyout, "%-5d | %-6d | %-20s | (RESERVEDWORD)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {ponto_virgula}     { fprintf(yyout, "%-5d | %-6d | %-20s | (PONTO_VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {virgula}           { fprintf(yyout, "%-5d | %-6d | %-20s | (VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng;}
