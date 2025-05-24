@@ -1,0 +1,6 @@
+void return intfloat struct return
+10.1231903e3
+if else if else
+< <= >= == =
+char string
+{ } [ ]
