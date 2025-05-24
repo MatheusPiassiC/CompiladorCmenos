@@ -101,6 +101,7 @@ other                   .
 {digit}+{letter}({letter}|{digit})+                      { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
 \"[^\n"]*                                                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);} 
 {letter}({letter}|{digit}|(_{letter}|_{digit})|[@$&^~])* { fprintf(yyout, "%-5d | %-6d | %-20s ID com simbolo inválido\n", line_number, column_number,yytext);}
+[A-Z]([A-Z]|{digit}|_([A-Z]|{digit}))*                   { fprintf(yyout, "%-5d | %-6d | %-20s ID com letras maiúsculas não são aceitas\n", line_number, column_number,yytext);}
 {other}                                                  { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 
