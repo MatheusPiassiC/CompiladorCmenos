@@ -75,10 +75,11 @@ other                   .
                         }
                     }
 
-{struct}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRUCT)\n", line_number, column_number, yytext); column_number+=yyleng; STRUCT }
+{struct}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRUCT)\n", line_number, column_number, yytext); column_number+=yyleng; return STRUCT; }
+{void}              { fprintf(yyout, "%-5d | %-6d | %-20s | (VOID)\n", line_number, column_number, yytext); column_number+=yyleng; return VOID; }
+{return}            { fprintf(yyout, "%-5d | %-6d | %-20s | (RETURN)\n", line_number, column_number, yytext); column_number+=yyleng; return RETURN; }
 {numint}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMINT;}
 {numfloat}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMFLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMFLOAT;}
-{reservedword}      { fprintf(yyout, "%-5d | %-6d | %-20s | (RESERVEDWORD)\n", line_number, column_number, yytext); column_number+=yyleng; return RESERVEDWORD;}
 "int"              { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng; return INT;}
 "float"            { fprintf(yyout, "%-5d | %-6d | %-20s | (FLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return FLOAT;}
 "char"             { fprintf(yyout, "%-5d | %-6d | %-20s | (CHAR)\n", line_number, column_number, yytext); column_number+=yyleng; return CHAR;}
