@@ -62,15 +62,15 @@ other                   .
 {soma}              { fprintf(yyout, "%-5d | %-6d | %-20s | (SOMA)\n", line_number, column_number, yytext); column_number+=yyleng;}
 {mult}              { fprintf(yyout, "%-5d | %-6d | %-20s | (MULT)\n", line_number, column_number, yytext); column_number+=yyleng;}    
 {comment}       {
-                    for (int i = 0; i < yyleng; i++) {
-                        if (yytext[i] == '\n') {
-                            line_number++;
-                            column_number = 1;
-                        } else {
-                            column_number++;
+                        for (int i = 0; i < yyleng; i++) {
+                            if (yytext[i] == '\n') {
+                                line_number++;
+                                column_number = 1;
+                            } else {
+                                column_number++;
+                            }
                         }
                     }
-                }
 
 
 {numint}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng;}
