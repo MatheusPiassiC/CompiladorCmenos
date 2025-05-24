@@ -40,7 +40,7 @@ for                     "for"
 
 id			            {letter}({letter}|{digit}|_({letter}|{digit}))*
 numint                  {digit}{digit}*
-numfloat                {digit}+(\.{digit}+)(e(\+|\-)?{digit}+)?
+numfloat                {digit}+(\.{digit}+)(E(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
 soma 			        \+|\-
