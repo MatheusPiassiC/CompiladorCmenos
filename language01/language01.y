@@ -1,12 +1,13 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
-    #define YYSTYPE double /* tipo double para pilha Yacc */
+    extern FILE *yyin;
 
-    /*Compatibilidade com FLEX*/
-    int yylex(void);
-    void yyerror(const char *s){
-    };
+    extern int yylex();
+    extern int yyparse(void);
+    void yyerror(const char *s);
+
+    void yyerror(const char *s);
 %}
 
 %token ID
@@ -49,11 +50,8 @@ programa : declaracaoLista
             ;
 
 //2
-declaracaoLista : declaracao declaracaoM
-            ;
-
-declaracaoM : declaracaoM declaracao
-            | 
+declaracaoLista : declaracao declaracaoLista
+            | declaracao
             ;
 
 //3
@@ -66,14 +64,11 @@ varDeclaracao : tipoEspc ID ';'
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha ';'
             ;
 
-abreNumFecha : abreNumFecha ABRECOLCHETE NUMINT FECHACOLCHETE
+abreNumFecha : ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha
             |
             ; 
 //5 
-tipoEspc  : types
-            ;
-
-types   : INT
+tipoEspc  : INT
             | FLOAT
             | CHAR
             | VOID
@@ -81,11 +76,8 @@ types   : INT
             ;
 
 // 6
-atriDeclara : varDeclaracao varDeclaracaoM
-            ;
-
-varDeclaracaoM  : varDeclaracaoM varDeclaracao
-            | 
+atriDeclara : varDeclaracao 
+            | varDeclaracao atriDeclara
             ;
 
 
@@ -95,17 +87,14 @@ funDeclaracao : tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl
 
 //8
 params  : paramLista
-            |"void"
+            | VOID
             ;
 
 //9
-paramLista  : param virgulaParam
+paramLista  : param 
+            | param VIRGULA paramLista
             ;
           
-virgulaParam  : virgulaParam ',' param
-            |
-            ;
-
 //10
 param : tipoEspc ID
             | tipoEspc ID ABRECOLCHETE FECHACOLCHETE
@@ -149,33 +138,33 @@ iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
             ;
 
 //19
-returnDecl  : RETURN ";"      {$$ = 0 ;}
-            | RETURN expr ";" {$$ = $2;}
+returnDecl  : RETURN ";"      
+            | RETURN expr ";" 
             ;
 
 
 //20
-expr   : var ATRIBUICAO expr {$$ = $3;}
-            | exprSimples    {$$ = $1;}
+expr   : var ATRIBUICAO expr 
+            | exprSimples    
             ;
             
 //22
-exprSimples : exprSoma RELOP exprSoma   //{$$ = $1 $2 $3;}
+exprSimples : exprSoma RELOP exprSoma   
             | exprSoma                
             ;
 //23
-exprSoma  :  termo somaTermo {$$ = $1 + $2;}
+exprSoma  :  termo somaTermo 
             ;
 
-somaTermo : somaTermo "+" termo  {$$ = $1 + $3 ;} 
-            |somaTermo "-" termo {$$ = $1 - $3 ;}
-            |                     
+somaTermo : somaTermo "+" somaTermo  
+            |somaTermo "-" somaTermo
+            |termo                     
             ;
 //27
-termo : fator multFator {$$ = $1 + $2;}
+termo : fator multFator 
             ;
-multFator : multFator "*" fator {$$ = $1 * $3;}
-            |multFator "/" fator {$$ = $1 / $3;}
+multFator : multFator "*" fator 
+            |multFator "/" fator 
             |
             ;
 
@@ -194,11 +183,10 @@ args : argLista
             |
             ;
 //32
-argLista  :  expr virgulaExpr
+argLista  :  expr 
+            | expr VIRGULA argLista
             ;
-virgulaExpr : virgulaExpr ',' expr
-            |
-            ;
+
 //21
 var    : ID
             | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  {$$ = $1;}
@@ -208,7 +196,31 @@ abreExpFecha : abreExpFecha ABRECOLCHETE expr FECHACOLCHETE
             ;
 %%
 
-int main(){
-    yyparse();
+void yyerror(const char *s) {
+    fprintf(stderr, "Erro de sintaxe: %s na linha %d, coluna %d\n", s, line_number, column_number);
+}
+
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        printf("Você deve prover um arquivo de entrada para o compilador.\n");
+        return -1;
+    }
+    FILE *arq_compilado = fopen(argv[1], "r");
+    if (!arq_compilado) {
+        printf("O arquivo fornecido para compilação não é válido.\n");
+        return -2;
+    }
+
+    yyin = arq_compilado;
+    if (yyparse() == 0) {
+        printf("!!! Análise sintática bem sucedida !!!\n");
+    }
+
+    fclose(arq_compilado);
     return 0;
+}
+
+
+void yyerror(const char *s) {
+    fprintf(stderr, "Erro de sintaxe: %s\n", s);
 }

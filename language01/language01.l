@@ -92,6 +92,7 @@ other                   .
 {else}              { fprintf(yyout, "%-5d | %-6d | %-20s | (ELSE)\n", line_number, column_number, yytext); column_number+=yyleng; return ELSE;}
 {for}               { fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng; return FOR;}
 {while}             { fprintf(yyout, "%-5d | %-6d | %-20s | (WHILE)\n", line_number, column_number, yytext); column_number+=yyleng; return WHILE;}
+{boolean}           { fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng; return BOOLEAN;}
 
 {string}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
 {id}                { fprintf(yyout, "%-5d | %-6d | %-20s | (ID)\n", line_number, column_number, yytext); column_number+=yyleng; return ID;}
@@ -99,7 +100,6 @@ other                   .
 {abrechave}         { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECHAVE;}
 {fechachave}        { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHACHAVE;}
 {atribuicao}        { fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng; return ATRIBUICAO;}
-{boolean}           { fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng; return BOOLEAN;}
 {abreparenteses}    { fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng; return ABREPARENTESES;}
 {fechaparenteses}   { fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHAPARENTESES;}
 {abrecolchete}      { fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECOLCHETE;}

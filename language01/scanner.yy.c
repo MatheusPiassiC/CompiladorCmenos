@@ -1,6 +1,6 @@
-#line 1 "scanner.yy.c"
+#line 2 "scanner.yy.c"
 
-#line 3 "scanner.yy.c"
+#line 4 "scanner.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -364,17 +364,17 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[107] =
     {   0,
         0,    0,   40,   38,    2,    1,   32,   35,    5,   28,
-       29,    4,    3,   16,    4,    9,   15,   17,   26,   17,
-       37,   30,   31,   23,   23,   23,   23,   23,   23,   23,
-       23,   23,   23,   24,   25,    2,   17,   35,   22,    5,
-        0,    0,    9,    0,   37,    0,   36,   23,    0,   23,
-       23,   23,   23,   23,   18,   23,   23,   23,   23,   23,
-       23,    0,    0,    0,   10,   34,   37,    0,   23,   23,
-       23,   23,   23,   20,   11,   23,   23,   23,   23,   23,
-        5,   33,   10,    0,   36,   13,   19,   23,   23,   23,
-       23,   23,   23,    7,   23,    0,   10,   12,   23,   23,
+       29,    4,    3,   16,    4,    9,   15,   17,   27,   17,
+       37,   30,   31,   24,   24,   24,   24,   24,   24,   24,
+       24,   24,   24,   25,   26,    2,   17,   35,   23,    5,
+        0,    0,    9,    0,   37,    0,   36,   24,    0,   24,
+       24,   24,   24,   24,   18,   24,   24,   24,   24,   24,
+       24,    0,    0,    0,   10,   34,   37,    0,   24,   24,
+       24,   24,   24,   20,   11,   24,   24,   24,   24,   24,
+        5,   33,   10,    0,   36,   13,   19,   24,   24,   24,
+       24,   24,   22,    7,   24,    0,   10,   12,   24,   24,
 
-       23,   21,    8,   14,    6,    0
+       24,   21,    8,   14,    6,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -555,8 +555,8 @@ char *yytext;
 
 int line_number = 1;
 int column_number = 1;
-#line 558 "scanner.yy.c"
 #line 559 "scanner.yy.c"
+#line 560 "scanner.yy.c"
 
 #define INITIAL 0
 
@@ -780,7 +780,7 @@ YY_DECL
 /*----------------------------- Rules -----------------------------*/
 
 
-#line 783 "scanner.yy.c"
+#line 784 "scanner.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -955,33 +955,33 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 97 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
+#line 96 "language01.l"
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng; return BOOLEAN;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 98 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ID)\n", line_number, column_number, yytext); column_number+=yyleng; return ID;}
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 100 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECHAVE;}
+#line 99 "language01.l"
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (ID)\n", line_number, column_number, yytext); column_number+=yyleng; return ID;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 101 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHACHAVE;}
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECHAVE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 102 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng; return ATRIBUICAO;}
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHACHAVE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 103 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng; return BOOLEAN;}
+{ fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng; return ATRIBUICAO;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
@@ -1043,7 +1043,7 @@ YY_RULE_SETUP
 #line 120 "language01.l"
 ECHO;
 	YY_BREAK
-#line 1046 "scanner.yy.c"
+#line 1047 "scanner.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
