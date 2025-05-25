@@ -7,7 +7,8 @@
     extern int yyparse(void);
     void yyerror(const char *s);
 
-    void yyerror(const char *s);
+    extern int line_number;
+    extern int column_number;
 %}
 
 %token ID
@@ -60,8 +61,8 @@ declaracao  : varDeclaracao
             ;
 
 //4
-varDeclaracao : tipoEspc ID ';'
-            | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha ';'
+varDeclaracao : tipoEspc ID PONTO_VIRGULA
+            | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
             ;
 
 abreNumFecha : ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha
@@ -124,8 +125,8 @@ comand  : exprDecl
             ;
 
 //15
-exprDecl  : expr ';'
-            | ';'
+exprDecl  : expr PONTO_VIRGULA
+            | PONTO_VIRGULA
             ;
 
 //16
@@ -138,8 +139,8 @@ iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
             ;
 
 //19
-returnDecl  : RETURN ";"      
-            | RETURN expr ";" 
+returnDecl  : RETURN PONTO_VIRGULA      
+            | RETURN expr PONTO_VIRGULA 
             ;
 
 
@@ -218,9 +219,4 @@ int main(int argc, char **argv) {
 
     fclose(arq_compilado);
     return 0;
-}
-
-
-void yyerror(const char *s) {
-    fprintf(stderr, "Erro de sintaxe: %s\n", s);
 }
