@@ -2,6 +2,7 @@
 /*-------------------------- Definitions --------------------------*/
 #include<stdio.h>
 #include "parser.tab.h"
+#define YYSTYPE double
 
 int line_number = 1;
 int column_number = 1;
@@ -78,18 +79,18 @@ other                   .
 {struct}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRUCT)\n", line_number, column_number, yytext); column_number+=yyleng; return STRUCT; }
 {void}              { fprintf(yyout, "%-5d | %-6d | %-20s | (VOID)\n", line_number, column_number, yytext); column_number+=yyleng; return VOID; }
 {return}            { fprintf(yyout, "%-5d | %-6d | %-20s | (RETURN)\n", line_number, column_number, yytext); column_number+=yyleng; return RETURN; }
-{numint}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMINT;}
-{numfloat}               { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMFLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMFLOAT;}
-"int"              { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng; return INT;}
-"float"            { fprintf(yyout, "%-5d | %-6d | %-20s | (FLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return FLOAT;}
-"char"             { fprintf(yyout, "%-5d | %-6d | %-20s | (CHAR)\n", line_number, column_number, yytext); column_number+=yyleng; return CHAR;}
-"string"           { fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
-{ponto_virgula}     { fprintf(yyout, "%-5d | %-6d | %-20s | (PONTO_VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng;return PONTO_VIRGULA;}
-{virgula}           { fprintf(yyout, "%-5d | %-6d | %-20s | (VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng;return VIRGULA;}
-{relop}             { fprintf(yyout, "%-5d | %-6d | %-20s | (RELOP)\n", line_number, column_number, yytext); column_number+=yyleng;return  RELOP;}
-{if}                { fprintf(yyout, "%-5d | %-6d | %-20s | (IF)\n", line_number, column_number, yytext); column_number+=yyleng;return IF;}
-{else}              { fprintf(yyout, "%-5d | %-6d | %-20s | (ELSE)\n", line_number, column_number, yytext); column_number+=yyleng;return ELSE;}
-{for}               { fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng;return FOR;}
+{numint}            { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMINT;}
+{numfloat}          { fprintf(yyout, "%-5d | %-6d | %-20s | (NUMFLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMFLOAT;}
+"int"               { fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng; return INT;}
+"float"             { fprintf(yyout, "%-5d | %-6d | %-20s | (FLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return FLOAT;}
+"char"              { fprintf(yyout, "%-5d | %-6d | %-20s | (CHAR)\n", line_number, column_number, yytext); column_number+=yyleng; return CHAR;}
+"string"            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
+{ponto_virgula}     { fprintf(yyout, "%-5d | %-6d | %-20s | (PONTO_VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng; return PONTO_VIRGULA;}
+{virgula}           { fprintf(yyout, "%-5d | %-6d | %-20s | (VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng; return VIRGULA;}
+{relop}             { fprintf(yyout, "%-5d | %-6d | %-20s | (RELOP)\n", line_number, column_number, yytext); column_number+=yyleng; return RELOP;}
+{if}                { fprintf(yyout, "%-5d | %-6d | %-20s | (IF)\n", line_number, column_number, yytext); column_number+=yyleng; return IF;}
+{else}              { fprintf(yyout, "%-5d | %-6d | %-20s | (ELSE)\n", line_number, column_number, yytext); column_number+=yyleng; return ELSE;}
+{for}               { fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng; return FOR;}
 {while}             { fprintf(yyout, "%-5d | %-6d | %-20s | (WHILE)\n", line_number, column_number, yytext); column_number+=yyleng; return WHILE;}
 
 {string}            { fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
@@ -116,15 +117,7 @@ other                   .
 
 
 %%
-/*------------------------ User subrotines ------------------------*/
-int main(int argc, char *argv[]){
-    yyin = fopen(argv[1], "r");
-    yyout=stdout;
-    printf("Linha | Coluna | Lexema |               Token\n");
-    yylex();
-    fclose(yyin);
-    return 0;
-}
+
 
 int yywrap(){
     return 0;

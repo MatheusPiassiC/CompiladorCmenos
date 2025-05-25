@@ -5,12 +5,12 @@
 
     /*Compatibilidade com FLEX*/
     int yylex(void);
-    void yyerror(const char *s);
+    void yyerror(const char *s){
+    };
 %}
 
 %token ID
 %token STRING
-%token NUMBER
 %token ABRECOLCHETE
 %token FECHACOLCHETE
 %token ATRIBUICAO
@@ -149,38 +149,38 @@ iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
             ;
 
 //19
-returnDecl  : RETURN ";"      {$$ = 0 }
-            | RETURN expr ";" {$$ = $2}
+returnDecl  : RETURN ";"      {$$ = 0 ;}
+            | RETURN expr ";" {$$ = $2;}
             ;
 
 
 //20
-expr   : var ATRIBUICAO expr {$$ = $3}
-            | exprSimples    {$$ = $1}
+expr   : var ATRIBUICAO expr {$$ = $3;}
+            | exprSimples    {$$ = $1;}
             ;
             
 //22
-exprSimples : exprSoma RELOP exprSoma   //{$$ = $1 $2 $3}
+exprSimples : exprSoma RELOP exprSoma   //{$$ = $1 $2 $3;}
             | exprSoma                
             ;
 //23
-exprSoma  :  termo somaTermo {$$ = $1 + $2}
+exprSoma  :  termo somaTermo {$$ = $1 + $2;}
             ;
 
-somaTermo : somaTermo "+" termo  {$$ = $1 + $3 } 
-            |somaTermo "-" termo {$$ = $1 - $3 }
+somaTermo : somaTermo "+" termo  {$$ = $1 + $3 ;} 
+            |somaTermo "-" termo {$$ = $1 - $3 ;}
             |                     
             ;
 //27
-termo : fator multFator {$$ = $1 + $2}
+termo : fator multFator {$$ = $1 + $2;}
             ;
-multFator : multFator "*" fator {$$ = $1 * $3}
-            |multFator "/" fator {$$ = $1 / $3}
+multFator : multFator "*" fator {$$ = $1 * $3;}
+            |multFator "/" fator {$$ = $1 / $3;}
             |
             ;
 
 //29
-fator   : ABREPARENTESES expr FECHAPARENTESES  {$$ = $2}
+fator   : ABREPARENTESES expr FECHAPARENTESES  {$$ = $2;}
             | var
             | ativacao
             | NUMFLOAT
@@ -201,9 +201,14 @@ virgulaExpr : virgulaExpr ',' expr
             ;
 //21
 var    : ID
-            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  {$$ = $1}
+            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  {$$ = $1;}
             ;
 abreExpFecha : abreExpFecha ABRECOLCHETE expr FECHACOLCHETE
             | 
             ;
 %%
+
+int main(){
+    yyparse();
+    return 0;
+}
