@@ -1,23 +1,130 @@
-int x;
-float y;
-char letra;
+# programa completo cobrindo a maioria das regras da bnf
+
+# regras 4, 5 - declaracoes de variaveis com diferentes tipos
+int numerointeiro;
+float numerofloat;
+char caractere;
 int vetor[10];
+float matriz[5][3];
+
+# regra 5 - estrutura (struct)
 struct pessoa {
     int idade;
     float altura;
+    char inicial;
 }
 
-int soma(int a, int b) {
+# regras 7, 8, 9, 10 - funcao com parametros
+int somar(int a, int b) {
+    # regra 12 - declaracoes locais
     int resultado;
-    resultado = a + b;
+    
+    # regra 20 - atribuicao com expressao aritmetica (regras 25, 26, 27, 28)
+    resultado = a + b * 2 - 1;
+    
+    # regra 19 - return com expressao
     return resultado;
 }
 
-void main() {
+# regras 7, 8 - funcao com parametros void
+int fibonacci(void) {
+    # regras 12, 13, 14, 15 - declaracoes locais e comandos
+    int n1;
+    int n2;
+    int proximo;
+    
+    # regras 20, 29 - atribuicoes com numeros
+    n1 = 0;
+    n2 = 1;
+    
+    # regra 20 - atribuicao com operacao
+    proximo = n1 + n2;
+    
+    return proximo;
+}
+
+# regra 8 - funcao com parametros incluindo array
+void processararray(int arr[], int tamanho) {
+    # regra 12 - declaracao local
     int i;
+    
+    # regra 20 - atribuicao
     i = 0;
-    while (i < 10) {
-        vetor[i] = soma(i, 2);
+    
+    # regras 16, 18 - estruturas de controle (while com if)
+    while (i < tamanho) {
+        # regras 21, 31 - acesso a array
+        if (arr[i] > 5) {
+            # regra 30 - chamada de funcao
+            arr[i] = somar(arr[i], 10);
+        }
+        else {
+            arr[i] = 0;
+        }
+        
+        # regra 20 - incremento
         i = i + 1;
     }
+}
+
+# funcao principal
+void main() {
+    # regra 12 - declaracoes locais variadas
+    int contador;
+    float media;
+    int numeros[5];
+    
+    # regras 20, 29 - atribuicoes com numeros inteiros e float
+    contador = 0;
+    media = 85.5;
+    
+    # regras 20, 21, 31 - atribuicao em array
+    numeros[0] = 10;
+    numeros[1] = 20;
+    numeros[2] = 30;
+    numeros[3] = 40;
+    numeros[4] = 50;
+    
+    # regra 18 - loop while com expressoes relacionais (regra 24)
+    while (contador < 5) {
+        # regras 16, 17 - if-else com operadores relacionais
+        if (numeros[contador] >= 30) {
+            # regra 30 - chamada de funcao
+            numeros[contador] = somar(numeros[contador], 5);
+        }
+        else {
+            if (numeros[contador] <= 20) {
+                numeros[contador] = numeros[contador] * 2;
+            }
+        }
+        
+        # regra 20 - incremento
+        contador = contador + 1;
+    }
+    
+    # regras 20, 25, 26, 27, 28 - expressao aritmetica complexa
+    media = (numeros[0] + numeros[1] + numeros[2] + numeros[3] + numeros[4]) / 5;
+    
+    # regra 30 - chamada de funcao
+    processararray(numeros, 5);
+    
+    # regras 16, 24 - if com diferentes operadores relacionais
+    if (media == 42.0) {
+        contador = 100;
+    }
+    
+    if (media != 0.0) {
+        if (contador > 50) {
+            contador = contador - 25;
+        }
+    }
+    
+    # regras 29 - expressao com parenteses
+    contador = (contador + 10) * (fibonacci() - 1);
+    
+    # regra 15 - comando vazio (apenas ponto e virgula)
+    ;
+    
+    # regra 19 - return sem expressao
+    return;
 }

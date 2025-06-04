@@ -40,160 +40,217 @@
 %token FOR
 %token BOOLEAN   
 
-%left '+' '-'
-%left '*' '/'
+%left SOMA
+%left MULT
 %right UMINUS
 
 
 %%
 //1
 programa : declaracaoLista
+            { printf("Redução: programa -> declaracaoLista\n"); }
             ;
 
 //2
-declaracaoLista : declaracao declaracaoLista
-            | declaracao
+declaracaoLista : declaracao
+            { printf("Redução: declaracaoLista -> declaracao\n"); }
+            | declaracaoLista declaracao
+            { printf("Redução: declaracaoLista -> declaracaoLista declaracao\n"); }
             ;
 
 //3
-declaracao  : varDeclaracao
-            | funDeclaracao
+declaracao  : funDeclaracao
+            { printf("Redução: declaracao -> funDeclaracao\n"); }
+            | varDeclaracao
+            { printf("Redução: declaracao -> varDeclaracao\n"); }
             ;
 
 //4
 varDeclaracao : tipoEspc ID PONTO_VIRGULA
+            { printf("Redução: varDeclaracao -> tipoEspc ID PONTO_VIRGULA\n"); }
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
+            | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
+            { printf("Redução: varDeclaracao -> tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA\n"); }
             ;
 
 abreNumFecha : ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha
+            { printf("Redução: abreNumFecha -> ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha\n"); }
             |
+            { printf("Redução: abreNumFecha -> ε\n"); }
             ; 
 //5 
 tipoEspc  : INT
+            { printf("Redução: tipoEspc -> INT\n"); }
             | FLOAT
+            { printf("Redução: tipoEspc -> FLOAT\n"); }
             | CHAR
+            { printf("Redução: tipoEspc -> CHAR\n"); }
             | VOID
-            | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
+            { printf("Redução: tipoEspc -> VOID\n"); }
             ;
 
 // 6
 atriDeclara : varDeclaracao 
+            { printf("Redução: atriDeclara -> varDeclaracao\n"); }
             | varDeclaracao atriDeclara
+            { printf("Redução: atriDeclara -> varDeclaracao atriDeclara\n"); }
             ;
 
 
 //7
 funDeclaracao : tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl
+            { printf("Redução: funDeclaracao -> tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl\n"); }
+            | error '\n' { printf("Redução: ERRO NA REDUCAO PARA FUNDECLARACAO\n"); yyerrok;}
             ;
 
 //8
 params  : paramLista
+            { printf("Redução: params -> paramLista\n"); }
             | VOID
+            { printf("Redução: params -> VOID\n"); }
             ;
 
 //9
 paramLista  : param 
-            | param VIRGULA paramLista
+            { printf("Redução: paramLista -> param\n"); }
+            | paramLista VIRGULA param 
+            { printf("Redução: paramLista -> paramLista VIRGULA param\n"); }
             ;
           
 //10
 param : tipoEspc ID
+            { printf("Redução: param -> tipoEspc ID\n"); }
             | tipoEspc ID ABRECOLCHETE FECHACOLCHETE
+            { printf("Redução: param -> tipoEspc ID ABRECOLCHETE FECHACOLCHETE\n"); }
             ;
 
 //11
 compostDecl : ABRECHAVE localDecla comandLista FECHACHAVE
+            { printf("Redução: compostDecl -> ABRECHAVE localDecla comandLista FECHACHAVE\n"); }
             ;
 
 
 //12
 localDecla  : localDecla varDeclaracao
+            { printf("Redução: localDecla -> localDecla varDeclaracao\n"); }
             |
+            { printf("Redução: localDecla -> ε\n"); }
             ;
 
 //13
 comandLista : comandLista comand
+            { printf("Redução: comandLista -> comandLista comand\n"); }
             | 
+            { printf("Redução: comandLista -> ε\n"); }
             ;
 
 //14
 comand  : exprDecl
+            { printf("Redução: comand -> exprDecl\n"); }
             | compostDecl
+            { printf("Redução: comand -> compostDecl\n"); }
             | selecDecl
+            { printf("Redução: comand -> selecDecl\n"); }
             | iterDecl
+            { printf("Redução: comand -> iterDecl\n"); }
             | returnDecl
+            { printf("Redução: comand -> returnDecl\n"); }
             ;
 
 //15
 exprDecl  : expr PONTO_VIRGULA
+            { printf("Redução: exprDecl -> expr PONTO_VIRGULA\n"); }
             | PONTO_VIRGULA
+            { printf("Redução: exprDecl -> PONTO_VIRGULA\n"); }
             ;
 
 //16
 selecDecl : IF ABREPARENTESES expr FECHAPARENTESES comand
+            { printf("Redução: selecDecl -> IF ABREPARENTESES expr FECHAPARENTESES comand\n"); }
             | IF ABREPARENTESES expr FECHAPARENTESES comand ELSE comand
+            { printf("Redução: selecDecl -> IF ABREPARENTESES expr FECHAPARENTESES comand ELSE comand\n"); }
             ;
 
 //18
 iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
+            { printf("Redução: iterDecl -> WHILE ABREPARENTESES expr FECHAPARENTESES comand\n"); }
             ;
 
 //19
 returnDecl  : RETURN PONTO_VIRGULA      
+            { printf("Redução: returnDecl -> RETURN PONTO_VIRGULA\n"); }
             | RETURN expr PONTO_VIRGULA 
+            { printf("Redução: returnDecl -> RETURN expr PONTO_VIRGULA\n"); }
             ;
 
 
 //20
 expr   : var ATRIBUICAO expr 
+            { printf("Redução: expr -> var ATRIBUICAO expr\n"); }
             | exprSimples    
+            { printf("Redução: expr -> exprSimples\n"); }
             ;
             
 //22
 exprSimples : exprSoma RELOP exprSoma   
+            { printf("Redução: exprSimples -> exprSoma RELOP exprSoma\n"); }
             | exprSoma                
+            { printf("Redução: exprSimples -> exprSoma\n"); }
             ;
 //23
-exprSoma  :  termo somaTermo 
-            ;
-
-somaTermo : somaTermo "+" somaTermo  
-            |somaTermo "-" somaTermo
-            |termo                     
+exprSoma  :  exprSoma SOMA termo 
+            { printf("Redução: exprSoma -> exprSoma SOMA termo\n"); $$ = $1 + $3;}
+            | termo
+            { printf("Redução: exprSoma -> termo\n"); }
             ;
 //27
-termo : fator multFator 
-            ;
-multFator : multFator "*" fator 
-            |multFator "/" fator 
-            |
+termo : termo MULT fator
+            { printf("Redução: termo -> termo MULT fator\n"); }
+            | fator
+            { printf("Redução: termo -> fator\n"); }
             ;
 
 //29
-fator   : ABREPARENTESES expr FECHAPARENTESES  {$$ = $2;}
+fator   : ABREPARENTESES expr FECHAPARENTESES  
+            { printf("Redução: fator -> ABREPARENTESES expr FECHAPARENTESES\n"); $$ = $2;}
             | var
+            { printf("Redução: fator -> var\n"); }
             | ativacao
+            { printf("Redução: fator -> ativacao\n"); }
             | NUMFLOAT
+            { printf("Redução: fator -> NUMFLOAT\n"); }
             | NUMINT
+            { printf("Redução: fator -> NUMINT\n"); }
+            | '-' fator %prec UMINUS
+            { printf("Redução: fator -> - fator\n"); }
             ;
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
+            { printf("Redução: ativacao -> ID ABREPARENTESES args FECHAPARENTESES\n"); }
             ;
 //31
 args : argLista
+            { printf("Redução: args -> argLista\n"); }
             |
+            { printf("Redução: args -> ε\n"); }
             ;
 //32
 argLista  :  expr 
-            | expr VIRGULA argLista
+            { printf("Redução: argLista -> expr\n"); }
+            | argLista VIRGULA expr
+            { printf("Redução: argLista -> argLista VIRGULA expr\n"); }
             ;
 
 //21
 var    : ID
-            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  {$$ = $1;}
+            { printf("Redução: var -> ID\n"); }
+            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  
+            { printf("Redução: var -> ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha\n"); $$ = $1;}
             ;
 abreExpFecha : abreExpFecha ABRECOLCHETE expr FECHACOLCHETE
+            { printf("Redução: abreExpFecha -> abreExpFecha ABRECOLCHETE expr FECHACOLCHETE\n"); }
             | 
+            { printf("Redução: abreExpFecha -> ε\n"); }
             ;
 %%
 
@@ -214,7 +271,9 @@ int main(int argc, char **argv) {
 
     yyin = arq_compilado;
     if (yyparse() == 0) {
-        printf("!!! Análise sintática bem sucedida !!!\n");
+        printf("\n==========================================\n");
+        printf("Análise sintática concluída com sucesso!\n");
+        printf("==========================================\n");
     }
 
     fclose(arq_compilado);

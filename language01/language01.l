@@ -61,7 +61,7 @@ other                   .
 /*----------------------------- Rules -----------------------------*/
 %}
 
-\n                  { line_number++; column_number = 1;}  
+\n                  { line_number++; column_number = 1;}
 {ws}			    { column_number += yyleng; }
 {soma}              { fprintf(yyout, "%-5d | %-6d | %-20s | (SOMA)\n", line_number, column_number, yytext); column_number+=yyleng; return SOMA;}
 {mult}              { fprintf(yyout, "%-5d | %-6d | %-20s | (MULT)\n", line_number, column_number, yytext); column_number+=yyleng; return MULT;}    
@@ -111,7 +111,6 @@ other                   .
 \"[^\n"]*                                                { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);} 
 {letter}({letter}|{digit}|(_{letter}|_{digit})|[@$&^~])* { fprintf(yyout, "%-5d | %-6d | %-20s ID com simbolo inválido\n", line_number, column_number,yytext);}
 [A-Z]([A-Z]|{digit}|_([A-Z]|{digit}))*                   { fprintf(yyout, "%-5d | %-6d | %-20s ID com letras maiúsculas não são aceitas\n", line_number, column_number,yytext);}
-{other}                                                  { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
 
 
 
@@ -120,5 +119,5 @@ other                   .
 
 
 int yywrap(){
-    return 0;
+    return 1;
 }
