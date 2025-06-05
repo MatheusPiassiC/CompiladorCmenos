@@ -71,6 +71,10 @@ varDeclaracao : tipoEspc ID PONTO_VIRGULA
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
             | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
             { printf("Redução: varDeclaracao -> tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA\n"); }
+            | tipoEspc error PONTO_VIRGULA
+            { printf("ERRO: Declaração de variável inválida na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
+            | tipoEspc ID ABRECOLCHETE error FECHACOLCHETE PONTO_VIRGULA
+            { printf("ERRO: Valor inválido ou ausente para o tamanho do arrayna linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
 
 abreNumFecha : ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha
@@ -100,6 +104,10 @@ atriDeclara : varDeclaracao
 //7
 funDeclaracao : tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl
             { printf("Redução: funDeclaracao -> tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl\n"); }
+            | tipoEspc error ABREPARENTESES params FECHAPARENTESES compostDecl
+            { printf("ERRO: Nome de função ausente ou inválido após o tipo de retorno na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
+            | tipoEspc ID ABREPARENTESES error FECHAPARENTESES compostDecl
+            { printf("ERRO: Lista de parâmetros malformada na declaração de função na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             | error '\n' { printf("Redução: ERRO NA REDUCAO PARA FUNDECLARACAO\n"); yyerrok;}
             ;
 
@@ -129,7 +137,6 @@ compostDecl : ABRECHAVE localDecla comandLista FECHACHAVE
             { printf("Redução: compostDecl -> ABRECHAVE localDecla comandLista FECHACHAVE\n"); }
             ;
 
-
 //12
 localDecla  : localDecla varDeclaracao
             { printf("Redução: localDecla -> localDecla varDeclaracao\n"); }
@@ -155,6 +162,8 @@ comand  : exprDecl
             { printf("Redução: comand -> iterDecl\n"); }
             | returnDecl
             { printf("Redução: comand -> returnDecl\n"); }
+            | error PONTO_VIRGULA
+            { printf("ERRO: Comando sintaticamente inválido ou incompleto na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
 
 //15
@@ -169,11 +178,15 @@ selecDecl : IF ABREPARENTESES expr FECHAPARENTESES comand
             { printf("Redução: selecDecl -> IF ABREPARENTESES expr FECHAPARENTESES comand\n"); }
             | IF ABREPARENTESES expr FECHAPARENTESES comand ELSE comand
             { printf("Redução: selecDecl -> IF ABREPARENTESES expr FECHAPARENTESES comand ELSE comand\n"); }
+            | IF ABREPARENTESES error FECHAPARENTESES comand
+            { printf("ERRO: Condição inválida no comando IF na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
 
 //18
 iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
             { printf("Redução: iterDecl -> WHILE ABREPARENTESES expr FECHAPARENTESES comand\n"); }
+            | WHILE ABREPARENTESES error FECHAPARENTESES comand
+            { printf("ERRO: Condição inválida no comando WHILE na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
 
 //19
@@ -181,6 +194,8 @@ returnDecl  : RETURN PONTO_VIRGULA
             { printf("Redução: returnDecl -> RETURN PONTO_VIRGULA\n"); }
             | RETURN expr PONTO_VIRGULA 
             { printf("Redução: returnDecl -> RETURN expr PONTO_VIRGULA\n"); }
+            | RETURN error PONTO_VIRGULA
+            { printf("ERRO: Valor de retorno inválido na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
 
 
