@@ -1,0 +1,34 @@
+# Teste da tabela de símbolos
+int variavel1;
+float variavel2;
+char variavel3;
+
+int array1[10];
+float array2[5][3];
+
+struct Pessoa {
+    int idade;
+    float altura;
+    char nome[50];
+};
+
+int funcao1(int parametro1, float parametro2) {
+    int variavel_local1;
+    float variavel_local2;
+    
+    variavel_local1 = 10;
+    variavel_local2 = 3.14;
+    
+    return variavel_local1;
+}
+
+void funcao2() {
+    int x;
+    x = 5;
+}
+
+float funcao3(int a, int b) {
+    float resultado;
+    resultado = a + b;
+    return resultado;
+} 

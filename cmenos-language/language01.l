@@ -95,7 +95,11 @@ other                   .
 {boolean}           {  column_number+=yyleng; return BOOLEAN;}
 
 {string}            { column_number+=yyleng; return STRING;}
-{id}                { column_number+=yyleng; return ID;}
+{id}                { 
+                        column_number+=yyleng; 
+                        yylval.str = strdup(yytext);
+                        return ID; 
+                    }
 
 {abrechave}         {  column_number+=yyleng; return ABRECHAVE;}
 {fechachave}        {  column_number+=yyleng; return FECHACHAVE;}
