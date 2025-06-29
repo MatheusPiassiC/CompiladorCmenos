@@ -1,5 +1,6 @@
+#line 1 "scanner.yy.c"
 
-#line 2 "lex.yy.c"
+#line 3 "scanner.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -351,8 +352,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 39
-#define YY_END_OF_BUFFER 40
+#define YY_NUM_RULES 38
+#define YY_END_OF_BUFFER 39
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,7 +363,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[107] =
     {   0,
-        0,    0,   40,   38,    2,    1,   32,   35,    5,   28,
+        0,    0,   39,   38,    2,    1,   32,   35,    5,   28,
        29,    4,    3,   16,    4,    9,   15,   17,   27,   17,
        37,   30,   31,   24,   24,   24,   24,   24,   24,   24,
        24,   24,   24,   25,   26,    2,   17,   35,   23,    5,
@@ -554,8 +555,8 @@ char *yytext;
 
 int line_number = 1;
 int column_number = 1;
-#line 557 "lex.yy.c"
-#line 558 "lex.yy.c"
+#line 558 "scanner.yy.c"
+#line 559 "scanner.yy.c"
 
 #define INITIAL 0
 
@@ -779,7 +780,7 @@ YY_DECL
 /*----------------------------- Rules -----------------------------*/
 
 
-#line 782 "lex.yy.c"
+#line 783 "scanner.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1034,15 +1035,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 115 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error\n", line_number, column_number,yytext);}
-	YY_BREAK
-case 39:
-YY_RULE_SETUP
-#line 120 "language01.l"
+#line 119 "language01.l"
 ECHO;
 	YY_BREAK
-#line 1045 "lex.yy.c"
+#line 1041 "scanner.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2047,11 +2043,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 120 "language01.l"
+#line 119 "language01.l"
 
 
 
 int yywrap(){
-    return 0;
+    return 1;
 }
 
