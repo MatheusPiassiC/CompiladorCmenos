@@ -63,7 +63,6 @@ declaracao  : funDeclaracao
 //4
 varDeclaracao : tipoEspc ID PONTO_VIRGULA
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
-            | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
             | tipoEspc error PONTO_VIRGULA
             { printf("ERRO: Declaração de variável inválida na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             | tipoEspc ID ABRECOLCHETE error FECHACOLCHETE PONTO_VIRGULA
@@ -78,6 +77,7 @@ tipoEspc  : INT
             | FLOAT
             | CHAR
             | VOID
+            | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
             ;
 
 // 6
