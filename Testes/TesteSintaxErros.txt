@@ -1,0 +1,63 @@
+/* Arquivo de teste para demonstrar todos os casos de erro da gramática */
+
+/* ERRO 1: Declaração de variável inválida - ID ausente ou inválido após o tipo */
+int ;
+float 123;
+char @variavel;
+
+/* ERRO 2: Valor inválido ou ausente para o tamanho do array */
+int vetor[];
+float matriz[abc];
+char texto[1.5];
+
+/* ERRO 3: Nome de função ausente ou inválido após o tipo de retorno */
+int (int x) {
+    return x;
+}
+
+/* ERRO 4: Lista de parâmetros malformada na declaração de função */
+int funcao(int x, ) {
+    return x;
+}
+
+/* ERRO 5: Ausência de vírgula nos parâmetros */
+int soma(int x int y) {
+    return x + y;
+}
+
+/* ERRO 6: Comando sintaticamente inválido ou incompleto */
+int main() {
+    int x = 
+    float y = 10;
+    return 0;
+}
+
+/* ERRO 7: Condição inválida no comando IF */
+int main() {
+    if () {
+        return 0;
+    }
+    return 1;
+}
+
+/* ERRO 8: ')' ausente após a condição do IF */
+int main() {
+    if (x > 0 {
+        return 0;
+    }
+    return 1;
+}
+
+/* ERRO 9: Condição inválida no comando WHILE */
+int main() {
+    while () {
+        x = x + 1;
+    }
+    return 0;
+}
+
+/* ERRO 10: Valor de retorno inválido */
+int main() {
+    return ;
+    return @valor;
+} 

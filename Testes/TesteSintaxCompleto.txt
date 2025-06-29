@@ -1,0 +1,69 @@
+int a;
+float b;
+char c;
+void d;
+
+/* Declaração de arrays */
+int vetor[10];
+float matriz[5][3];
+char texto[100];
+
+/* Declaração de estrutura */
+struct Pessoa {
+    int idade;
+    float altura;
+    char nome[50];
+};
+
+/* Declaração de função sem parâmetros */
+void funcaoVazia() {
+    return;
+}
+
+/* Declaração de função com parâmetros */
+int soma(int x, int y) {
+    return x + y;
+}
+
+/* Função com array como parâmetro */
+float media(float notas[]) {
+    return 0.0;
+}
+
+/* Função principal com todos os tipos de comandos */
+int main() {
+    /* Declarações locais */
+    int contador;
+    float resultado;
+    char letra;
+    
+    /* Expressões aritméticas */
+    contador = 10 + 5;
+    resultado = contador * 2.5;
+    
+    /* Expressões com operadores relacionais */
+    if (contador > 5) {
+        resultado = resultado + 1;
+    } else {
+        resultado = resultado - 1;
+    }
+    
+    /* Estrutura de repetição */
+    while (contador > 0) {
+        contador = contador - 1;
+    }
+    
+    /* Chamada de função */
+    resultado = soma(5, 3);
+    
+    /* Expressões com arrays */
+    vetor[0] = 10;
+    matriz[0][0] = 1.5;
+    
+    /* Expressões com estruturas */
+    struct Pessoa pessoa;
+    pessoa.idade = 25;
+    
+    /* Retorno da função */
+    return 0;
+}
