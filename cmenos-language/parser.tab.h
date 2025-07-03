@@ -44,6 +44,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 17 "language01.y"
+
+    #include "symbol_table.h"
+
+#line 53 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -55,17 +61,17 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     ID = 258,                      /* ID  */
-    STRING = 259,                  /* STRING  */
-    ABRECOLCHETE = 260,            /* ABRECOLCHETE  */
-    FECHACOLCHETE = 261,           /* FECHACOLCHETE  */
-    ATRIBUICAO = 262,              /* ATRIBUICAO  */
-    RELOP = 263,                   /* RELOP  */
-    SOMA = 264,                    /* SOMA  */
-    MULT = 265,                    /* MULT  */
-    ABREPARENTESES = 266,          /* ABREPARENTESES  */
-    FECHAPARENTESES = 267,         /* FECHAPARENTESES  */
-    NUMFLOAT = 268,                /* NUMFLOAT  */
-    NUMINT = 269,                  /* NUMINT  */
+    NUMINT = 259,                  /* NUMINT  */
+    NUMFLOAT = 260,                /* NUMFLOAT  */
+    STRING = 261,                  /* STRING  */
+    ABRECOLCHETE = 262,            /* ABRECOLCHETE  */
+    FECHACOLCHETE = 263,           /* FECHACOLCHETE  */
+    ATRIBUICAO = 264,              /* ATRIBUICAO  */
+    RELOP = 265,                   /* RELOP  */
+    SOMA = 266,                    /* SOMA  */
+    MULT = 267,                    /* MULT  */
+    ABREPARENTESES = 268,          /* ABREPARENTESES  */
+    FECHAPARENTESES = 269,         /* FECHAPARENTESES  */
     ABRECHAVE = 270,               /* ABRECHAVE  */
     FECHACHAVE = 271,              /* FECHACHAVE  */
     IF = 272,                      /* IF  */
@@ -89,7 +95,19 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 21 "language01.y"
+
+    tipoDado datatype;
+    char *string;
+    int integer;
+    float real;
+
+#line 108 "parser.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

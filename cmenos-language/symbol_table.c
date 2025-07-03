@@ -1,174 +1,171 @@
 #include "symbol_table.h"
 
-// Cria uma nova tabela de símbolos
-SymbolTable* createSymbolTable() {
-    SymbolTable* table = (SymbolTable*)malloc(sizeof(SymbolTable));
-    if (table) {
-        table->head = NULL;
-        table->currentScope = 0;
-        table->symbolCount = 0;
+// Variável global da tabela de símbolos
+SymbolTable symbol_table;
+
+// Inicializa a tabela de símbolos
+void init_symbol_table() {
+    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+        symbol_table.table[i] = NULL;
     }
-    return table;
+    symbol_table.current_scope = 0;
+    symbol_table.next_address = 0;
 }
 
-// Destrói a tabela de símbolos e libera a memória
-void destroySymbolTable(SymbolTable* table) {
-    if (!table) return;
-    
-    Symbol* current = table->head;
-    while (current) {
-        Symbol* next = current->next;
-        free(current);
-        current = next;
+// Função hash simples
+unsigned int hash_function(const char *name) {
+    unsigned int hash = 0;
+    while (*name) {
+        hash = (hash * 31 + *name) % HASH_TABLE_SIZE;
+        name++;
     }
-    free(table);
+    return hash;
+}
+
+// Função auxiliar para calcular o tamanho em bytes de um tipo
+int get_type_size(tipoDado type) {
+    switch (type) {
+        case TYPE_INT:
+        case TYPE_FLOAT:
+            return 4;
+        case TYPE_CHAR:
+            return 1;
+        default:
+            return 4;
+    }
+}
+
+// Insere um símbolo de array na tabela
+int insert_array_symbol(const char *name, tipoDado base_type, int array_size) {
+    // Verifica se já existe no escopo atual
+    Symbol *existing = lookup_symbol(name);
+    if (existing != NULL && existing->scope_level == symbol_table.current_scope) {
+        printf("ERRO: Identificador '%s' já declarado no escopo atual\n", name);
+        return 0;
+    }
+    
+    unsigned int index = hash_function(name);
+    Symbol *new_symbol = (Symbol*)malloc(sizeof(Symbol));
+    if (new_symbol == NULL) {
+        printf("ERRO: Falha na alocação de memória para símbolo\n");
+        return 0;
+    }
+    
+    new_symbol->name = strdup(name);
+    new_symbol->type = TYPE_ARRAY;
+    new_symbol->array_base_type = base_type;
+    new_symbol->scope_level = symbol_table.current_scope;
+    new_symbol->array_size = array_size;
+    new_symbol->address = symbol_table.next_address;
+    
+    // Calcula o tamanho total do array
+    int element_size = get_type_size(base_type);
+    symbol_table.next_address += array_size * element_size;
+    
+    new_symbol->next = symbol_table.table[index];
+    symbol_table.table[index] = new_symbol;
+    
+    printf("Array '%s' inserido no escopo %d, endereço %d, tamanho total %d bytes\n", 
+           name, symbol_table.current_scope, new_symbol->address, array_size * element_size);
+    
+    return 1;
 }
 
 // Insere um símbolo na tabela
-Symbol* insertSymbol(SymbolTable* table, const char* name, SymbolType type, DataType dataType, int line, int column) {
-    if (!table || !name) return NULL;
-    
-    // Verifica se o símbolo já existe no escopo atual
-    Symbol* existing = lookupSymbol(table, name, table->currentScope);
-    if (existing) {
-        printf("ERRO: Símbolo '%s' já declarado no escopo atual (linha %d, coluna %d)\n", 
-               name, line, column);
-        return NULL;
+int insert_symbol(const char *name, tipoDado type, int array_size) {
+    if (type == TYPE_ARRAY) {
+        return insert_array_symbol(name, TYPE_INT, array_size); // Assume int como tipo base padrão
     }
     
-    // Cria um novo símbolo
-    Symbol* symbol = (Symbol*)malloc(sizeof(Symbol));
-    if (!symbol) return NULL;
-    
-    strcpy(symbol->name, name);
-    symbol->type = type;
-    symbol->dataType = dataType;
-    symbol->line = line;
-    symbol->column = column;
-    symbol->scope = table->currentScope;
-    symbol->arrayDimensions = 0;
-    symbol->structName[0] = '\0';
-    
-    // Insere no início da lista
-    symbol->next = table->head;
-    table->head = symbol;
-    table->symbolCount++;
-    
-    return symbol;
-}
-
-// Busca um símbolo no escopo especificado
-Symbol* lookupSymbol(SymbolTable* table, const char* name, int scope) {
-    if (!table || !name) return NULL;
-    
-    Symbol* current = table->head;
-    while (current) {
-        if (strcmp(current->name, name) == 0 && current->scope == scope) {
-            return current;
-        }
-        current = current->next;
+    // Verifica se já existe no escopo atual
+    Symbol *existing = lookup_symbol(name);
+    if (existing != NULL && existing->scope_level == symbol_table.current_scope) {
+        printf("ERRO: Identificador '%s' já declarado no escopo atual\n", name);
+        return 0;
     }
-    return NULL;
+    
+    unsigned int index = hash_function(name);
+    Symbol *new_symbol = (Symbol*)malloc(sizeof(Symbol));
+    if (new_symbol == NULL) {
+        printf("ERRO: Falha na alocação de memória para símbolo\n");
+        return 0;
+    }
+    
+    new_symbol->name = strdup(name);
+    new_symbol->type = type;
+    new_symbol->array_base_type = type;
+    new_symbol->scope_level = symbol_table.current_scope;
+    new_symbol->array_size = 0;
+    new_symbol->address = symbol_table.next_address;
+    
+    symbol_table.next_address += get_type_size(type);
+    
+    new_symbol->next = symbol_table.table[index];
+    symbol_table.table[index] = new_symbol;
+    
+    printf("Símbolo '%s' inserido no escopo %d, endereço %d\n", 
+           name, symbol_table.current_scope, new_symbol->address);
+    
+    return 1;
 }
 
-// Busca um símbolo globalmente (em qualquer escopo)
-Symbol* lookupSymbolGlobal(SymbolTable* table, const char* name) {
-    if (!table || !name) return NULL;
+// Busca um símbolo na tabela
+Symbol* lookup_symbol(const char *name) {
+    unsigned int index = hash_function(name);
+    Symbol *current = symbol_table.table[index];
     
-    Symbol* current = table->head;
-    while (current) {
+    Symbol *best_match = NULL;
+    int best_scope = -1;
+    
+    while (current != NULL) {
         if (strcmp(current->name, name) == 0) {
-            return current;
+            if (current->scope_level <= symbol_table.current_scope &&
+                current->scope_level > best_scope) {
+                best_match = current;
+                best_scope = current->scope_level;
+            }
         }
         current = current->next;
     }
-    return NULL;
+    
+    if (best_match == NULL) {
+        printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", name);
+    }
+    
+    return best_match;
 }
 
 // Entra em um novo escopo
-void enterScope(SymbolTable* table) {
-    if (table) {
-        table->currentScope++;
-    }
+void enter_scope() {
+    symbol_table.current_scope++;
+    printf("Entrando no escopo %d\n", symbol_table.current_scope);
 }
 
 // Sai do escopo atual
-void exitScope(SymbolTable* table) {
-    if (table && table->currentScope > 0) {
-        removeSymbolsInScope(table, table->currentScope);
-        table->currentScope--;
-    }
-}
-
-// Remove todos os símbolos de um escopo específico
-void removeSymbolsInScope(SymbolTable* table, int scope) {
-    if (!table) return;
+void exit_scope() {
+    printf("Saindo do escopo %d\n", symbol_table.current_scope);
     
-    Symbol* current = table->head;
-    Symbol* prev = NULL;
-    
-    while (current) {
-        if (current->scope == scope) {
-            if (prev) {
-                prev->next = current->next;
+    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+        Symbol **current = &symbol_table.table[i];
+        while (*current != NULL) {
+            if ((*current)->scope_level == symbol_table.current_scope) {
+                Symbol *to_remove = *current;
+                *current = (*current)->next;
+                printf("Removendo símbolo '%s' do escopo %d\n", 
+                       to_remove->name, to_remove->scope_level);
+                free(to_remove->name);
+                free(to_remove);
             } else {
-                table->head = current->next;
+                current = &((*current)->next);
             }
-            
-            Symbol* toDelete = current;
-            current = current->next;
-            free(toDelete);
-            table->symbolCount--;
-        } else {
-            prev = current;
-            current = current->next;
         }
     }
+    
+    symbol_table.current_scope--;
 }
 
-// Imprime a tabela de símbolos
-void printSymbolTable(SymbolTable* table) {
-    if (!table) {
-        printf("Tabela de símbolos não existe.\n");
-        return;
-    }
-    
-    printf("\n=== TABELA DE SÍMBOLOS ===\n");
-    printf("Escopo atual: %d\n", table->currentScope);
-    printf("Total de símbolos: %d\n\n", table->symbolCount);
-    
-    printf("%-15s %-10s %-10s %-15s %-8s %-8s %-8s\n", 
-           "Nome", "Tipo", "Tipo Dados", "Estrutura", "Linha", "Coluna", "Escopo");
-    printf("----------------------------------------------------------------\n");
-    
-    Symbol* current = table->head;
-    while (current) {
-        printf("%-15s %-10s %-10s %-15s %-8d %-8d %-8d\n",
-               current->name,
-               getSymbolTypeName(current->type),
-               getDataTypeName(current->dataType),
-               current->structName[0] ? current->structName : "-",
-               current->line,
-               current->column,
-               current->scope);
-        current = current->next;
-    }
-    printf("================================================================\n\n");
-}
-
-// Retorna o nome do tipo de símbolo
-const char* getSymbolTypeName(SymbolType type) {
-    switch (type) {
-        case SYMBOL_VAR: return "Variavel";
-        case SYMBOL_FUNC: return "Funcao";
-        case SYMBOL_STRUCT: return "Estrutura";
-        case SYMBOL_PARAM: return "Parametro";
-        default: return "Desconhecido";
-    }
-}
-
-// Retorna o nome do tipo de dados
-const char* getDataTypeName(DataType type) {
+// Converte tipo para string
+const char* type_to_string(tipoDado type) {
     switch (type) {
         case TYPE_INT: return "int";
         case TYPE_FLOAT: return "float";
@@ -176,24 +173,56 @@ const char* getDataTypeName(DataType type) {
         case TYPE_VOID: return "void";
         case TYPE_STRUCT: return "struct";
         case TYPE_ARRAY: return "array";
-        default: return "desconhecido";
+        default: return "unknown";
     }
 }
 
-// Converte um token para o tipo de dados correspondente
-DataType getDataTypeFromToken(int token) {
-    switch (token) {
-        case 258: // INT
-            return TYPE_INT;
-        case 259: // FLOAT
-            return TYPE_FLOAT;
-        case 260: // CHAR
-            return TYPE_CHAR;
-        case 261: // VOID
-            return TYPE_VOID;
-        case 262: // STRUCT
-            return TYPE_STRUCT;
-        default:
-            return TYPE_INT; // Padrão
+// Imprime a tabela de símbolos
+void print_symbol_table() {
+    printf("\n========== TABELA DE SÍMBOLOS ==========\n");
+    printf("%-15s %-10s %-10s %-8s %-10s %-8s\n", 
+           "Nome", "Tipo", "TipoBase", "Escopo", "Endereço", "Tamanho");
+    printf("--------------------------------------------\n");
+    
+    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+        Symbol *current = symbol_table.table[i];
+        while (current != NULL) {
+            printf("%-15s %-10s ", 
+                   current->name, 
+                   type_to_string(current->type));
+            
+            if (current->type == TYPE_ARRAY) {
+                printf("%-10s ", type_to_string(current->array_base_type));
+            } else {
+                printf("%-10s ", "-");
+            }
+            
+            printf("%-8d %-10d ", 
+                   current->scope_level,
+                   current->address);
+            
+            if (current->type == TYPE_ARRAY) {
+                printf("%-8d\n", current->array_size);
+            } else {
+                printf("%-8s\n", "-");
+            }
+            
+            current = current->next;
+        }
+    }
+    printf("==========================================\n\n");
+}
+
+// Libera memória da tabela de símbolos
+void free_symbol_table() {
+    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+        Symbol *current = symbol_table.table[i];
+        while (current != NULL) {
+            Symbol *next = current->next;
+            free(current->name);
+            free(current);
+            current = next;
+        }
+        symbol_table.table[i] = NULL;
     }
 } 

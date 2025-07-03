@@ -1,8 +1,9 @@
 %{
 /*-------------------------- Definitions --------------------------*/
 #include<stdio.h>
+#include<string.h>
 #include "parser.tab.h"
-#define YYSTYPE double
+#include "symbol_table.h"
 
 int line_number = 1;
 int column_number = 1;
@@ -97,8 +98,8 @@ other                   .
 {string}            { column_number+=yyleng; return STRING;}
 {id}                { 
                         column_number+=yyleng; 
-                        yylval.str = strdup(yytext);
-                        return ID; 
+                        yylval.string = strdup(yytext); 
+                        return ID;
                     }
 
 {abrechave}         {  column_number+=yyleng; return ABRECHAVE;}

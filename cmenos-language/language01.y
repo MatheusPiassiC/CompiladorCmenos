@@ -1,6 +1,7 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
+    #include <string.h>
     #include "symbol_table.h"
     extern FILE *yyin;
 
@@ -10,23 +11,23 @@
 
     extern int line_number;
     extern int column_number;
-    
-    // Variável global para a tabela de símbolos
-    SymbolTable* symbolTable;
-    
-    // Variáveis para armazenar informações temporárias
-    char currentFunctionName[100];
-    DataType currentFunctionType;
-    char currentStructName[100];
+    extern char *yytext;
 %}
 
-%union {
-    double num;
-    char* str;
-    DataType type;
+%code requires {
+    #include "symbol_table.h"
 }
 
-%token ID
+%union {
+    tipoDado datatype;
+    char *string;
+    int integer;
+    float real;
+}
+
+%token <string> ID
+%token <integer> NUMINT
+%token <real> NUMFLOAT
 %token STRING
 %token ABRECOLCHETE
 %token FECHACOLCHETE
@@ -36,8 +37,6 @@
 %token MULT
 %token ABREPARENTESES
 %token FECHAPARENTESES
-%token NUMFLOAT
-%token NUMINT
 %token ABRECHAVE
 %token FECHACHAVE
 %token IF
@@ -53,10 +52,9 @@
 %token NOT
 %token VIRGULA
 %token FOR
-%token BOOLEAN   
+%token BOOLEAN
 
-%type <str> ID
-%type <type> tipoEspc
+%type <datatype> tipoEspc   
 
 %left SOMA
 %left MULT
@@ -66,10 +64,6 @@
 %%
 //1
 programa : declaracaoLista
-            { 
-                printf("\n=== ANÁLISE SINTÁTICA E SEMÂNTICA CONCLUÍDA ===\n");
-                printSymbolTable(symbolTable);
-            }
             ;
 
 //2
@@ -85,20 +79,24 @@ declaracao  : funDeclaracao
 //4
 varDeclaracao : tipoEspc ID PONTO_VIRGULA
             { 
-                insertSymbol(symbolTable, $2, SYMBOL_VAR, $1, line_number, column_number);
+                if (!insert_symbol($2, $1, 0)) {
+                    yyerror("Erro na declaração de variável");
+                }
+                free($2);
             }
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
-            { 
-                Symbol* symbol = insertSymbol(symbolTable, $2, SYMBOL_VAR, TYPE_ARRAY, line_number, column_number);
-                if (symbol) {
-                    symbol->arrayDimensions = 1;
-                    symbol->arraySizes[0] = $4;
+            {
+                if (!insert_array_symbol($2, $1, $4)) {
+                    yyerror("Erro na declaração de array");
                 }
+                free($2);
             }
             | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
-            { 
-                strcpy(currentStructName, $2);
-                insertSymbol(symbolTable, $2, SYMBOL_STRUCT, TYPE_STRUCT, line_number, column_number);
+            {
+                if (!insert_symbol($2, TYPE_STRUCT, 0)) {
+                    yyerror("Erro na declaração de struct");
+                }
+                free($2);
             }
             | tipoEspc error PONTO_VIRGULA
             { printf("ERRO: Declaração de variável inválida na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
@@ -128,10 +126,11 @@ atriDeclara : varDeclaracao
 
 //7
 funDeclaracao : tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl
-            { 
-                strcpy(currentFunctionName, $2);
-                currentFunctionType = $1;
-                insertSymbol(symbolTable, $2, SYMBOL_FUNC, $1, line_number, column_number);
+            {
+                if (!insert_symbol($2, $1, 0)) {
+                    yyerror("Erro na declaração de função");
+                }
+                free($2);
             }
             | tipoEspc error ABREPARENTESES params FECHAPARENTESES compostDecl
             { printf("ERRO: Nome de função ausente ou inválido após o tipo de retorno na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
@@ -152,24 +151,24 @@ paramLista  : param
           
 //10
 param : tipoEspc ID
-            { 
-                insertSymbol(symbolTable, $2, SYMBOL_PARAM, $1, line_number, column_number);
+            {
+                if (!insert_symbol($2, $1, 0)) {
+                    yyerror("Erro na declaração de parâmetro");
+                }
+                free($2);
             }
             | tipoEspc ID ABRECOLCHETE FECHACOLCHETE
-            { 
-                Symbol* symbol = insertSymbol(symbolTable, $2, SYMBOL_PARAM, TYPE_ARRAY, line_number, column_number);
-                if (symbol) {
-                    symbol->arrayDimensions = 1;
-                    symbol->arraySizes[0] = 0; // Array sem tamanho especificado
+            {
+                if (!insert_array_symbol($2, $1, 0)) {
+                    yyerror("Erro na declaração de parâmetro array");
                 }
+                free($2);
             }
             ;
 
 //11
-compostDecl : ABRECHAVE localDecla comandLista FECHACHAVE
-            { 
-                exitScope(symbolTable);
-            }
+compostDecl : ABRECHAVE { enter_scope(); } localDecla comandLista FECHACHAVE
+            { exit_scope(); }
             ;
 
 //12
@@ -229,7 +228,6 @@ exprSimples : exprSoma RELOP exprSoma
             ;
 //23
 exprSoma  :  exprSoma SOMA termo 
-            { $$ = $1 + $3;}
             | termo
             ;
 //27
@@ -239,7 +237,7 @@ termo : termo MULT fator
 
 //29
 fator   : ABREPARENTESES expr FECHAPARENTESES  
-            { $$ = $2;}
+
             | var
             | ativacao
             | NUMFLOAT
@@ -248,12 +246,12 @@ fator   : ABREPARENTESES expr FECHAPARENTESES
             ;
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
-            { 
-                Symbol* func = lookupSymbolGlobal(symbolTable, $1);
-                if (!func || func->type != SYMBOL_FUNC) {
-                    printf("ERRO: Função '%s' não declarada na linha %d, coluna %d\n", 
-                           $1, line_number, column_number);
+            {
+                Symbol *sym = lookup_symbol($1);
+                if (sym == NULL) {
+                    yyerror("Função não declarada");
                 }
+                free($1);
             }
             ;
 //31
@@ -267,24 +265,22 @@ argLista  :  expr
 
 //21
 var    : ID
-            { 
-                Symbol* symbol = lookupSymbolGlobal(symbolTable, $1);
-                if (!symbol) {
-                    printf("ERRO: Variável '%s' não declarada na linha %d, coluna %d\n", 
-                           $1, line_number, column_number);
+            {
+                Symbol *sym = lookup_symbol($1);
+                if (sym == NULL) {
+                    yyerror("Identificador não declarado");
                 }
+                free($1);
             }
-            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  
-            { 
-                Symbol* symbol = lookupSymbolGlobal(symbolTable, $1);
-                if (!symbol) {
-                    printf("ERRO: Variável '%s' não declarada na linha %d, coluna %d\n", 
-                           $1, line_number, column_number);
-                } else if (symbol->type != SYMBOL_VAR || symbol->dataType != TYPE_ARRAY) {
-                    printf("ERRO: '%s' não é um array na linha %d, coluna %d\n", 
-                           $1, line_number, column_number);
+            | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha
+            {
+                Symbol *sym = lookup_symbol($1);
+                if (sym == NULL) {
+                    yyerror("Identificador não declarado");
+                } else if (sym->type != TYPE_ARRAY) {
+                    printf("ERRO: '%s' não é um array\n", $1);
                 }
-                $$ = $1;
+                free($1);
             }
             ;
 abreExpFecha : abreExpFecha ABRECOLCHETE expr FECHACOLCHETE
@@ -308,22 +304,20 @@ int main(int argc, char **argv) {
     }
 
     // Inicializa a tabela de símbolos
-    symbolTable = createSymbolTable();
-    if (!symbolTable) {
-        printf("Erro ao criar tabela de símbolos.\n");
-        fclose(arq_compilado);
-        return -3;
-    }
+    init_symbol_table();
 
     yyin = arq_compilado;
     if (yyparse() == 0) {
         printf("\n==========================================\n");
         printf("Análise sintática concluída com sucesso!\n");
         printf("==========================================\n");
+        
+        // Imprime a tabela de símbolos final
+        print_symbol_table();
     }
 
-    // Limpa a tabela de símbolos
-    destroySymbolTable(symbolTable);
+    // Libera memória da tabela de símbolos
+    free_symbol_table();
     fclose(arq_compilado);
     return 0;
 }

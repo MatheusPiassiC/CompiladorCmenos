@@ -1,6 +1,6 @@
-#line 1 "scanner.yy.c"
+#line 2 "scanner.yy.c"
 
-#line 3 "scanner.yy.c"
+#line 4 "scanner.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -550,13 +550,14 @@ char *yytext;
 #line 2 "language01.l"
 /*-------------------------- Definitions --------------------------*/
 #include<stdio.h>
+#include<string.h>
 #include "parser.tab.h"
-#define YYSTYPE double
+#include "symbol_table.h"
 
 int line_number = 1;
 int column_number = 1;
-#line 558 "scanner.yy.c"
-#line 559 "scanner.yy.c"
+#line 560 "scanner.yy.c"
+#line 561 "scanner.yy.c"
 
 #define INITIAL 0
 
@@ -773,14 +774,14 @@ YY_DECL
 		}
 
 	{
-#line 59 "language01.l"
+#line 60 "language01.l"
 
 
-#line 62 "language01.l"
+#line 63 "language01.l"
 /*----------------------------- Rules -----------------------------*/
 
 
-#line 783 "scanner.yy.c"
+#line 785 "scanner.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -840,28 +841,28 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 65 "language01.l"
+#line 66 "language01.l"
 { line_number++; column_number = 1;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 66 "language01.l"
+#line 67 "language01.l"
 { column_number += yyleng; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 67 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (SOMA)\n", line_number, column_number, yytext); column_number+=yyleng; return SOMA;}
+#line 68 "language01.l"
+{ column_number+=yyleng; return SOMA;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 68 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (MULT)\n", line_number, column_number, yytext); column_number+=yyleng; return MULT;}    
+#line 69 "language01.l"
+{ column_number+=yyleng; return MULT;}    
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 69 "language01.l"
+#line 70 "language01.l"
 {
                         for (int i = 0; i < yyleng; i++) {
                             if (yytext[i] == '\n') {
@@ -875,170 +876,174 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 80 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (STRUCT)\n", line_number, column_number, yytext); column_number+=yyleng; return STRUCT; }
+#line 81 "language01.l"
+{  column_number+=yyleng; return STRUCT; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 81 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (VOID)\n", line_number, column_number, yytext); column_number+=yyleng; return VOID; }
+#line 82 "language01.l"
+{  column_number+=yyleng; return VOID; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 82 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (RETURN)\n", line_number, column_number, yytext); column_number+=yyleng; return RETURN; }
+#line 83 "language01.l"
+{  column_number+=yyleng; return RETURN; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 83 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (NUMINT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMINT;}
+#line 84 "language01.l"
+{  column_number+=yyleng; return NUMINT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 84 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (NUMFLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return NUMFLOAT;}
+#line 85 "language01.l"
+{  column_number+=yyleng; return NUMFLOAT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 85 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (INT)\n", line_number, column_number, yytext); column_number+=yyleng; return INT;}
+#line 86 "language01.l"
+{  column_number+=yyleng; return INT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 86 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FLOAT)\n", line_number, column_number, yytext); column_number+=yyleng; return FLOAT;}
+#line 87 "language01.l"
+{  column_number+=yyleng; return FLOAT;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 87 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (CHAR)\n", line_number, column_number, yytext); column_number+=yyleng; return CHAR;}
+#line 88 "language01.l"
+{  column_number+=yyleng; return CHAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 88 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
+#line 89 "language01.l"
+{  column_number+=yyleng; return STRING;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 89 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (PONTO_VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng; return PONTO_VIRGULA;}
+#line 90 "language01.l"
+{  column_number+=yyleng; return PONTO_VIRGULA;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 90 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (VIRGULA)\n", line_number, column_number, yytext); column_number+=yyleng; return VIRGULA;}
+#line 91 "language01.l"
+{  column_number+=yyleng; return VIRGULA;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 91 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (RELOP)\n", line_number, column_number, yytext); column_number+=yyleng; return RELOP;}
+#line 92 "language01.l"
+{  column_number+=yyleng; return RELOP;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 92 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (IF)\n", line_number, column_number, yytext); column_number+=yyleng; return IF;}
+#line 93 "language01.l"
+{  column_number+=yyleng; return IF;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 93 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ELSE)\n", line_number, column_number, yytext); column_number+=yyleng; return ELSE;}
+#line 94 "language01.l"
+{  column_number+=yyleng; return ELSE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 94 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FOR)\n", line_number, column_number, yytext); column_number+=yyleng; return FOR;}
+#line 95 "language01.l"
+{  column_number+=yyleng; return FOR;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 95 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (WHILE)\n", line_number, column_number, yytext); column_number+=yyleng; return WHILE;}
+#line 96 "language01.l"
+{  column_number+=yyleng; return WHILE;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 96 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (BOOLEAN)\n", line_number, column_number, yytext); column_number+=yyleng; return BOOLEAN;}
+#line 97 "language01.l"
+{  column_number+=yyleng; return BOOLEAN;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 98 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (STRING)\n", line_number, column_number, yytext); column_number+=yyleng; return STRING;}
+#line 99 "language01.l"
+{ column_number+=yyleng; return STRING;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 99 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ID)\n", line_number, column_number, yytext); column_number+=yyleng; return ID;}
+#line 100 "language01.l"
+{ 
+                        column_number+=yyleng; 
+                        yylval.string = strdup(yytext); 
+                        return ID;
+                    }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 101 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECHAVE;}
+#line 106 "language01.l"
+{  column_number+=yyleng; return ABRECHAVE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 102 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACHAVE)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHACHAVE;}
+#line 107 "language01.l"
+{  column_number+=yyleng; return FECHACHAVE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 103 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ATRIBUICAO)\n", line_number, column_number, yytext); column_number+=yyleng; return ATRIBUICAO;}
+#line 108 "language01.l"
+{  column_number+=yyleng; return ATRIBUICAO;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 104 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ABREPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng; return ABREPARENTESES;}
+#line 109 "language01.l"
+{ column_number+=yyleng; return ABREPARENTESES;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 105 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FECHAPARENTESES)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHAPARENTESES;}
+#line 110 "language01.l"
+{  column_number+=yyleng; return FECHAPARENTESES;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 106 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (ABRECOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng; return ABRECOLCHETE;}
+#line 111 "language01.l"
+{   column_number+=yyleng; return ABRECOLCHETE;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 107 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (FECHACOLCHETE)\n", line_number, column_number, yytext); column_number+=yyleng; return FECHACOLCHETE;}
+#line 112 "language01.l"
+{  column_number+=yyleng; return FECHACOLCHETE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 108 "language01.l"
-{ fprintf(yyout, "%-5d | %-6d | %-20s | (NOT)\n", line_number, column_number, yytext); column_number+=yyleng; return NOT;}
+#line 113 "language01.l"
+{  column_number+=yyleng; return NOT;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 110 "language01.l"
+#line 115 "language01.l"
 { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Números escritos com mais que um ponto não são aceitos\n", line_number, column_number,yytext);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 111 "language01.l"
+#line 116 "language01.l"
 { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: Identificadores iniciados com números não são aceitos\n", line_number, column_number,yytext);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 112 "language01.l"
+#line 117 "language01.l"
 { fprintf(yyout, "%-5d | %-6d | %-20s Lexical Error: String devem começar e terminar com aspas duplas\n", line_number, column_number,yytext);} 
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 113 "language01.l"
+#line 118 "language01.l"
 { fprintf(yyout, "%-5d | %-6d | %-20s ID com simbolo inválido\n", line_number, column_number,yytext);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 114 "language01.l"
+#line 119 "language01.l"
 { fprintf(yyout, "%-5d | %-6d | %-20s ID com letras maiúsculas não são aceitas\n", line_number, column_number,yytext);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 119 "language01.l"
+#line 124 "language01.l"
 ECHO;
 	YY_BREAK
-#line 1041 "scanner.yy.c"
+#line 1047 "scanner.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2043,7 +2048,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 119 "language01.l"
+#line 124 "language01.l"
 
 
 

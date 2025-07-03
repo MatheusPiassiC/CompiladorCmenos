@@ -5,15 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Enumeração para tipos de símbolos
-typedef enum {
-    SYMBOL_VAR,
-    SYMBOL_FUNC,
-    SYMBOL_STRUCT,
-    SYMBOL_PARAM
-} SymbolType;
+#define HASH_TABLE_SIZE 100
+#define MAX_SCOPE_LEVEL 50
 
-// Enumeração para tipos de dados
+// Tipos de dados suportados
 typedef enum {
     TYPE_INT,
     TYPE_FLOAT,
@@ -21,43 +16,39 @@ typedef enum {
     TYPE_VOID,
     TYPE_STRUCT,
     TYPE_ARRAY
-} DataType;
+} tipoDado;
 
-// Estrutura para armazenar informações de um símbolo
+// Estrutura para um símbolo na tabela
 typedef struct Symbol {
-    char name[100];           // Nome do símbolo
-    SymbolType type;          // Tipo do símbolo (variável, função, etc.)
-    DataType dataType;        // Tipo de dados
-    char structName[100];     // Nome da estrutura (se aplicável)
-    int arrayDimensions;      // Número de dimensões do array
-    int arraySizes[10];       // Tamanhos das dimensões
-    int line;                 // Linha onde foi declarado
-    int column;               // Coluna onde foi declarado
-    int scope;                // Escopo do símbolo
-    struct Symbol* next;      // Próximo símbolo na lista
+    char *name;                 // Nome do identificador
+    tipoDado type;              // Tipo de dado
+    tipoDado array_base_type;   // Tipo base do array (se for array)
+    int address;                // Endereço relativo
+    int scope_level;            // Nível de escopo
+    int array_size;             // Tamanho do array (se for array)
+    struct Symbol *next;        // Próximo símbolo na lista (para colisões)
 } Symbol;
 
 // Estrutura da tabela de símbolos
-typedef struct {
-    Symbol* head;             // Primeiro símbolo na tabela
-    int currentScope;         // Escopo atual
-    int symbolCount;          // Contador de símbolos
+typedef struct SymbolTable {
+    Symbol *table[HASH_TABLE_SIZE];
+    int current_scope;
+    int next_address;
 } SymbolTable;
 
-// Funções da tabela de símbolos
-SymbolTable* createSymbolTable();
-void destroySymbolTable(SymbolTable* table);
-Symbol* insertSymbol(SymbolTable* table, const char* name, SymbolType type, DataType dataType, int line, int column);
-Symbol* lookupSymbol(SymbolTable* table, const char* name, int scope);
-Symbol* lookupSymbolGlobal(SymbolTable* table, const char* name);
-void enterScope(SymbolTable* table);
-void exitScope(SymbolTable* table);
-void printSymbolTable(SymbolTable* table);
-void removeSymbolsInScope(SymbolTable* table, int scope);
+// Variável global da tabela de símbolos
+extern SymbolTable symbol_table;
 
-// Funções auxiliares
-const char* getSymbolTypeName(SymbolType type);
-const char* getDataTypeName(DataType type);
-DataType getDataTypeFromToken(int token);
+// Protótipos das funções
+void init_symbol_table();
+unsigned int hash_function(const char *name);
+int insert_symbol(const char *name, tipoDado type, int array_size);
+int insert_array_symbol(const char *name, tipoDado base_type, int array_size);
+Symbol* lookup_symbol(const char *name);
+void enter_scope();
+void exit_scope();
+void print_symbol_table();
+const char* type_to_string(tipoDado type);
+void free_symbol_table();
 
 #endif 

@@ -1,0 +1,13 @@
+int main() {
+    int x[10];
+    float y[5];
+    char str[100];
+    
+    void funcao(int arr[1]) {
+        int local[20];
+    }
+    
+    {
+        int z[3];
+    }
+} 
