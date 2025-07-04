@@ -19,7 +19,6 @@
 }
 
 %union {
-    tipoDado datatype;
     char *string;
     int integer;
     float real;
@@ -54,7 +53,7 @@
 %token FOR
 %token BOOLEAN
 
-%type <datatype> tipoEspc   
+%type <string> tipoEspc   
 
 %left SOMA
 %left MULT
@@ -79,21 +78,25 @@ declaracao  : funDeclaracao
 //4
 varDeclaracao : tipoEspc ID PONTO_VIRGULA
             { 
-                if (!insert_symbol($2, $1, 0)) {
+                if (!insert_symbol(current_table, $2, $1)) {
                     yyerror("Erro na declaração de variável");
                 }
                 free($2);
+                free($1);
             }
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
             {
-                if (!insert_array_symbol($2, $1, $4)) {
+                char array_type[50];
+                snprintf(array_type, sizeof(array_type), "%s_array[%d]", $1, $4);
+                if (!insert_symbol(current_table, $2, array_type)) {
                     yyerror("Erro na declaração de array");
                 }
                 free($2);
+                free($1);
             }
             | STRUCT ID ABRECHAVE atriDeclara FECHACHAVE
             {
-                if (!insert_symbol($2, TYPE_STRUCT, 0)) {
+                if (!insert_symbol(current_table, $2, "struct")) {
                     yyerror("Erro na declaração de struct");
                 }
                 free($2);
@@ -109,13 +112,13 @@ abreNumFecha : ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha
             ;
 //5 
 tipoEspc  : INT
-            { $$ = TYPE_INT; }
+            { $$ = strdup("int"); }
             | FLOAT
-            { $$ = TYPE_FLOAT; }
+            { $$ = strdup("float"); }
             | CHAR
-            { $$ = TYPE_CHAR; }
+            { $$ = strdup("char"); }
             | VOID
-            { $$ = TYPE_VOID; }
+            { $$ = strdup("void"); }
             ;
 
 // 6
@@ -127,10 +130,13 @@ atriDeclara : varDeclaracao
 //7
 funDeclaracao : tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl
             {
-                if (!insert_symbol($2, $1, 0)) {
+                char func_type[50];
+                snprintf(func_type, sizeof(func_type), "function_%s", $1);
+                if (!insert_symbol(current_table, $2, func_type)) {
                     yyerror("Erro na declaração de função");
                 }
                 free($2);
+                free($1);
             }
             | tipoEspc error ABREPARENTESES params FECHAPARENTESES compostDecl
             { printf("ERRO: Nome de função ausente ou inválido após o tipo de retorno na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
@@ -152,17 +158,21 @@ paramLista  : param
 //10
 param : tipoEspc ID
             {
-                if (!insert_symbol($2, $1, 0)) {
+                if (!insert_symbol(current_table, $2, $1)) {
                     yyerror("Erro na declaração de parâmetro");
                 }
                 free($2);
+                free($1);
             }
             | tipoEspc ID ABRECOLCHETE FECHACOLCHETE
             {
-                if (!insert_array_symbol($2, $1, 0)) {
+                char param_type[50];
+                snprintf(param_type, sizeof(param_type), "%s_array", $1);
+                if (!insert_symbol(current_table, $2, param_type)) {
                     yyerror("Erro na declaração de parâmetro array");
                 }
                 free($2);
+                free($1);
             }
             ;
 
@@ -247,9 +257,9 @@ fator   : ABREPARENTESES expr FECHAPARENTESES
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
             {
-                Symbol *sym = lookup_symbol($1);
+                Symbol *sym = lookup_symbol(current_table, $1);
                 if (sym == NULL) {
-                    yyerror("Função não declarada");
+                    printf("ERRO: Função '%s' não foi declarada\n", $1);
                 }
                 free($1);
             }
@@ -266,18 +276,18 @@ argLista  :  expr
 //21
 var    : ID
             {
-                Symbol *sym = lookup_symbol($1);
+                Symbol *sym = lookup_symbol(current_table, $1);
                 if (sym == NULL) {
-                    yyerror("Identificador não declarado");
+                    printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", $1);
                 }
                 free($1);
             }
             | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha
             {
-                Symbol *sym = lookup_symbol($1);
+                Symbol *sym = lookup_symbol(current_table, $1);
                 if (sym == NULL) {
-                    yyerror("Identificador não declarado");
-                } else if (sym->type != TYPE_ARRAY) {
+                    printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", $1);
+                } else if (strstr(sym->type, "array") == NULL) {
                     printf("ERRO: '%s' não é um array\n", $1);
                 }
                 free($1);
@@ -313,11 +323,11 @@ int main(int argc, char **argv) {
         printf("==========================================\n");
         
         // Imprime a tabela de símbolos final
-        print_symbol_table();
+        print_symbol_table(current_table);
     }
 
     // Libera memória da tabela de símbolos
-    free_symbol_table();
+    cleanup_symbol_table();
     fclose(arq_compilado);
     return 0;
 }

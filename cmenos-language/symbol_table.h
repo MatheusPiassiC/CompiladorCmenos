@@ -6,49 +6,36 @@
 #include <string.h>
 
 #define HASH_TABLE_SIZE 100
-#define MAX_SCOPE_LEVEL 50
-
-// Tipos de dados suportados
-typedef enum {
-    TYPE_INT,
-    TYPE_FLOAT,
-    TYPE_CHAR,
-    TYPE_VOID,
-    TYPE_STRUCT,
-    TYPE_ARRAY
-} tipoDado;
 
 // Estrutura para um símbolo na tabela
 typedef struct Symbol {
     char *name;                 // Nome do identificador
-    tipoDado type;              // Tipo de dado
-    tipoDado array_base_type;   // Tipo base do array (se for array)
-    int address;                // Endereço relativo
-    int scope_level;            // Nível de escopo
-    int array_size;             // Tamanho do array (se for array)
+    char *type;                 // Tipo de dado (string)
+    int offset;                 // Offset/endereço relativo
     struct Symbol *next;        // Próximo símbolo na lista (para colisões)
 } Symbol;
 
 // Estrutura da tabela de símbolos
 typedef struct SymbolTable {
-    Symbol *table[HASH_TABLE_SIZE];
-    int current_scope;
-    int next_address;
+    Symbol *table[HASH_TABLE_SIZE];     // Array de ponteiros para símbolos
+    struct SymbolTable *parent;         // Ponteiro para tabela pai (escopo externo)
+    int next_offset;                    // Próximo offset disponível
 } SymbolTable;
 
-// Variável global da tabela de símbolos
-extern SymbolTable symbol_table;
+// Variável global da tabela de símbolos atual
+extern SymbolTable *current_table;
 
 // Protótipos das funções
-void init_symbol_table();
+SymbolTable* create_symbol_table(SymbolTable *parent);
+void destroy_symbol_table(SymbolTable *table);
 unsigned int hash_function(const char *name);
-int insert_symbol(const char *name, tipoDado type, int array_size);
-int insert_array_symbol(const char *name, tipoDado base_type, int array_size);
-Symbol* lookup_symbol(const char *name);
+int insert_symbol(SymbolTable *table, const char *name, const char *type);
+Symbol* lookup_symbol(SymbolTable *table, const char *name);
+Symbol* lookup_symbol_current_scope(SymbolTable *table, const char *name);
 void enter_scope();
 void exit_scope();
-void print_symbol_table();
-const char* type_to_string(tipoDado type);
-void free_symbol_table();
+void print_symbol_table(SymbolTable *table);
+void init_symbol_table();
+void cleanup_symbol_table();
 
 #endif 

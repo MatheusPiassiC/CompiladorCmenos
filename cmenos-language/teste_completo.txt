@@ -1,0 +1,21 @@
+int main() {
+    int x;
+    float y;
+    int z[10];
+    
+    {
+        char c;
+        int w;
+        w = 5;
+        c = 'a';
+    }
+    
+    x = 10;
+    y = 3.14;
+    z[0] = 1;
+}
+
+void funcao(int a, float b) {
+    int local;
+    local = a;
+} 

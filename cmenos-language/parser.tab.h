@@ -99,12 +99,11 @@ union YYSTYPE
 {
 #line 21 "language01.y"
 
-    tipoDado datatype;
     char *string;
     int integer;
     float real;
 
-#line 108 "parser.tab.h"
+#line 107 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

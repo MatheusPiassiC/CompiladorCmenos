@@ -2,6 +2,8 @@
 
 # regras 4, 5 - declaracoes de variaveis com diferentes tipos
 int numerointeiro;
+int numerointeiro;
+
 float numerofloat;
 char caractere;
 int vetor[10];
