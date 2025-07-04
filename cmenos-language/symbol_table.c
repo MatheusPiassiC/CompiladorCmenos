@@ -17,7 +17,18 @@ SymbolTable* create_symbol_table(SymbolTable *parent) {
     }
     
     table->parent = parent;
+    table->next_scope = NULL;
     table->next_offset = (parent != NULL) ? parent->next_offset : 0;
+    
+    // Se tem pai, adiciona esta tabela como próxima na sequência
+    if (parent != NULL) {
+        // Encontra a última tabela na sequência
+        SymbolTable *last = parent;
+        while (last->next_scope != NULL) {
+            last = last->next_scope;
+        }
+        last->next_scope = table;
+    }
     
     return table;
 }
@@ -172,11 +183,20 @@ void exit_scope() {
     
     if (parent != NULL) {
         // Atualiza o offset da tabela pai
-        parent->next_offset = current_table->next_offset;
-    }
+        parent->next_offset = current_table->next_offset; }
+        
+    //     // Remove esta tabela da sequência de next_scope
+    //     SymbolTable *prev = parent;
+    //     while (prev != NULL && prev->next_scope != current_table) {
+    //         prev = prev->next_scope;
+    //     }
+    //     if (prev != NULL) {
+    //         prev->next_scope = current_table->next_scope;
+    //     }
+    // }
     
     printf("Saindo do escopo atual\n");
-    destroy_symbol_table(current_table);
+    //destroy_symbol_table(current_table);
     current_table = parent;
 }
 
@@ -229,4 +249,57 @@ void cleanup_symbol_table() {
         current_table = parent;
     }
     printf("Tabela de símbolos limpa\n");
+}
+
+// Imprime todas as tabelas de símbolos da raiz até a atual
+void print_all_symbol_tables(SymbolTable *table) {
+    if (table == NULL) {
+        printf("Tabela de símbolos vazia\n");
+        return;
+    }
+
+    // Primeiro vai até a raiz (tabela mais antiga)
+    SymbolTable *root = table;
+    int nivel = 0;
+    while (root->parent != NULL) {
+        root = root->parent;
+        nivel++;
+    }
+
+    // Agora imprime da raiz até a tabela atual
+    SymbolTable *current = root;
+    int escopo_atual = 0;
+    while (current != NULL) {
+        printf("\n========== TABELA DE SÍMBOLOS (Escopo %d) ==========\n", escopo_atual);
+        printf("%-15s %-10s %-8s\n", "Nome", "Tipo", "Offset");
+        printf("------------------------------------\n");
+
+        for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+            Symbol *sym = current->table[i];
+            while (sym != NULL) {
+                printf("%-15s %-10s %-8d\n", 
+                       sym->name, 
+                       sym->type,
+                       sym->offset);
+                sym = sym->next;
+            }
+        }
+
+        printf("==========================================\n");
+        
+        // Se este é o escopo atual, marca com um indicador
+        if (current == table) {
+            printf("^^^ ESCOPO ATUAL ^^^\n\n");
+        } else {
+            printf("\n");
+        }
+
+        if (current->next_scope != NULL) {
+            current = current->next_scope;
+            escopo_atual++;
+        }
+        else {
+            current = NULL;
+        }
+    }
 } 

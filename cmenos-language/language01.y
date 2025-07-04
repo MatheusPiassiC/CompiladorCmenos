@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
         printf("==========================================\n");
         
         // Imprime a tabela de símbolos final
-        print_symbol_table(current_table);
+        print_all_symbol_tables(current_table);
     }
 
     // Libera memória da tabela de símbolos

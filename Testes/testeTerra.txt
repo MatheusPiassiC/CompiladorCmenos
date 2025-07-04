@@ -3,7 +3,6 @@ int main(void) {
     /* Atribuição de valores */
     x = 5;
     y = 10.5;
-    idade = 25 + 2 * 9E2 * ;
     altura = 1.75;
 
     /* Inicializando o arranjo */

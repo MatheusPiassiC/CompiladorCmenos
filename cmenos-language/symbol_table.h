@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define HASH_TABLE_SIZE 100
+#define HASH_TABLE_SIZE 211
 
 // Estrutura para um símbolo na tabela
 typedef struct Symbol {
@@ -15,10 +15,11 @@ typedef struct Symbol {
     struct Symbol *next;        // Próximo símbolo na lista (para colisões)
 } Symbol;
 
-// Estrutura da tabela de símbolos
+// Estrutura para a tabela de símbolos
 typedef struct SymbolTable {
     Symbol *table[HASH_TABLE_SIZE];     // Array de ponteiros para símbolos
     struct SymbolTable *parent;         // Ponteiro para tabela pai (escopo externo)
+    struct SymbolTable *next_scope;     // Ponteiro para próxima tabela na ordem de criação
     int next_offset;                    // Próximo offset disponível
 } SymbolTable;
 
@@ -35,6 +36,7 @@ Symbol* lookup_symbol_current_scope(SymbolTable *table, const char *name);
 void enter_scope();
 void exit_scope();
 void print_symbol_table(SymbolTable *table);
+void print_all_symbol_tables(SymbolTable *table);
 void init_symbol_table();
 void cleanup_symbol_table();
 

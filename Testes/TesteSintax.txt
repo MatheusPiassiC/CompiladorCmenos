@@ -70,7 +70,7 @@ void processararray(int arr[], int tamanho) {
 }
 
 # funcao principal
-void main() {
+void main(void) {
     # regra 12 - declaracoes locais variadas
     int contador;
     float media;
