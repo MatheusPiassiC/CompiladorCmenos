@@ -52,6 +52,7 @@
     float real;
     Atributo attr;
     Rots rotulos;
+    int param_counter;
 }
 
 
@@ -90,6 +91,7 @@
 
 %type <attr> expr exprSimples exprSoma termo fator var
 %type <attr> ativacao
+%type <param_counter> args argLista  
 
 %type <string> tipoEspc   
 
@@ -388,30 +390,29 @@ fator   : ABREPARENTESES expr FECHAPARENTESES   {
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
             {
-                Symbol *sym = lookup_symbol(current_table, $1);
+                Symbol *sym = lookup_symbol($1);
                 if (sym == NULL) {
-                    printf("ERRO: Função '%s' não foi declarada\n", $1);
+                    yyerror("Função não declarada");
                 }
                 Atributo resultado;
-                resultado.nome = strdup($1);
+                resultado.nome = new_temp();
                 $$ = resultado;
-                printf("call %s 3\n", strdup($1));
+                printf("%s = call %s %d\n", resultado.nome, strdup($1), $3);
+                free($1);
             }
             ;
 //31
-args : argLista
-            |
-            ;
+args : argLista { $$ = $1; }  
+     | { $$ = 0; }           
+     ;
 //32
 argLista  :  expr {
-                Atributo temp;
-                temp.nome = new_temp();
-                printf("param %s\n", temp.nome);
+                printf("param %s\n", $1.nome);
+                $$ = 1;
             }
             | argLista VIRGULA expr {
-                Atributo temp;
-                temp.nome = new_temp();
-                printf("param %s\n", temp.nome);
+                printf("param %s\n", $3.nome);
+                $$ = $1 + 1;
             }
             ;
 
