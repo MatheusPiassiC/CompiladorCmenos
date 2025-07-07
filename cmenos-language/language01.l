@@ -49,7 +49,8 @@ numint                  {digit}{digit}*
 numfloat                {digit}+(\.{digit}+)(E(\+|\-)?{digit}+)?
 string                  \"[^\n"]*\"
 mult                    \*|\/
-soma 			        \+|\-
+mais 			        \+
+menos 			        \-
 comment 		        "#".*|"/*"(.*|\n)*"*/"
 
 
@@ -64,8 +65,10 @@ other                   .
 
 \n                  { line_number++; column_number = 1;}
 {ws}			    { column_number += yyleng; }
-{soma}              { column_number+=yyleng; return SOMA;}
-{mult}              { column_number+=yyleng; return MULT;}    
+{mais}    { column_number+=yyleng; yylval.string = strdup("+"); return MAIS; }
+{menos}    { column_number+=yyleng; yylval.string = strdup("-"); return MENOS; }
+"*"    { column_number+=yyleng; yylval.string = strdup("*"); return MULT; }
+"/"    { column_number+=yyleng; yylval.string = strdup("/"); return MULT; }
 {comment}       {
                         for (int i = 0; i < yyleng; i++) {
                             if (yytext[i] == '\n') {
@@ -88,7 +91,7 @@ other                   .
 "string"            {  column_number+=yyleng; return STRING;}
 {ponto_virgula}     {  column_number+=yyleng; return PONTO_VIRGULA;}
 {virgula}           {  column_number+=yyleng; return VIRGULA;}
-{relop}             {  column_number+=yyleng; return RELOP;}
+{relop}             {  column_number+=yyleng;  yylval.string = strdup(yytext); return RELOP;}
 {if}                {  column_number+=yyleng; return IF;}
 {else}              {  column_number+=yyleng; return ELSE;}
 {for}               {  column_number+=yyleng; return FOR;}
