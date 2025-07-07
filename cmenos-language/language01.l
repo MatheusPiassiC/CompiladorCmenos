@@ -83,8 +83,8 @@ other                   .
 {struct}            {  column_number+=yyleng; return STRUCT; }
 {void}              {  column_number+=yyleng; return VOID; }
 {return}            {  column_number+=yyleng; return RETURN; }
-{numint}            {  column_number+=yyleng; return NUMINT;}
-{numfloat}          {  column_number+=yyleng; return NUMFLOAT;}
+{numint}            {  column_number+=yyleng; yylval.integer = atoi(yytext); return NUMINT;}
+{numfloat}          {  column_number+=yyleng; yylval.real = atof(yytext); return NUMFLOAT;}
 "int"               {  column_number+=yyleng; return INT;}
 "float"             {  column_number+=yyleng; return FLOAT;}
 "char"              {  column_number+=yyleng; return CHAR;}
