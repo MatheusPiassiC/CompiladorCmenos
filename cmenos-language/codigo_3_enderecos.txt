@@ -1,0 +1,23 @@
+t0 = x < y
+l0:
+ifFalse t0 goto l1
+t1 = x + z
+x = t1
+t2 = x >= w
+ifFalse t2 goto l2
+t3 = x + p
+x = t3
+goto l3
+l2:
+t4 = x - p
+x = t4
+l3:
+goto l0
+l1:
+param x
+param y
+param z
+param w
+param p
+t5 = call funcao 5
+x = t5

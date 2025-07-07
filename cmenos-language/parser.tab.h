@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 37 "language01.y"
+#line 39 "language01.y"
 
     #include "symbol_table.h"
     #define MAX_STACK_SIZE 100
@@ -107,15 +107,16 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 49 "language01.y"
+#line 51 "language01.y"
 
     char *string;
     int integer;
     float real;
     Atributo attr;
     Rots rotulos;
+    int param_counter;
 
-#line 119 "parser.tab.h"
+#line 120 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

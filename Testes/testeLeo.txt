@@ -1,0 +1,19 @@
+int funcao(int x, int y, int z, int w, int p){
+    while(x < y){
+        x = x + z;
+        if(x >= w)
+            x = x + p;
+        else
+            x = x - p;
+    }
+    return x;
+}
+
+int main(void){
+    int x;
+    int y;
+    int z;
+    int w;
+    int p;
+    x =funcao(x, y, z, w, p);
+}

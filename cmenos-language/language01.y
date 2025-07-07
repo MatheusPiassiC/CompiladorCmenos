@@ -19,7 +19,9 @@
     int label_count = 0;    
 
     LabelStack label_stack;
-
+    
+    // Arquivo para código de 3 endereços
+    FILE *codigo_3_enderecos;
 
     char* new_temp() {
         char* temp = (char*)malloc(10);
@@ -253,7 +255,7 @@ selecDecl : IF ABREPARENTESES expr FECHAPARENTESES{
                 pair.label2 = strdup(label_end);
                 push_label(&label_stack, pair);
                 
-                printf("ifFalse %s goto %s\n", $3.nome, label_init);  
+                fprintf(codigo_3_enderecos, "ifFalse %s goto %s\n", $3.nome, label_init);
             }
             comand else_opt
             | IF ABREPARENTESES error FECHAPARENTESES comand
@@ -261,19 +263,19 @@ selecDecl : IF ABREPARENTESES expr FECHAPARENTESES{
             ;
 else_opt: %prec LOWER_THAN_ELSE{
             LabelPair pair = pop_label(&label_stack);
-            printf("%s:\n", pair.label1);
+            fprintf(codigo_3_enderecos, "%s:\n", pair.label1);
             free(pair.label1);
             free(pair.label2);
         }
         | ELSE {
                 LabelPair pair = pop_label(&label_stack);
-                printf("goto %s\n", pair.label2);
-                printf("%s:\n", pair.label1 );
+                fprintf(codigo_3_enderecos, "goto %s\n", pair.label2);
+                fprintf(codigo_3_enderecos, "%s:\n", pair.label1);
                 $<string>$ = pair.label2;
                 free(pair.label1);
             } comand {
                 char* label_end = $<string>2;
-                printf("%s:\n", label_end);
+                fprintf(codigo_3_enderecos, "%s:\n", label_end);
                 free(label_end);
             }
             ;
@@ -287,11 +289,11 @@ iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES{
 
                 $<rotulos>$ = rotas; // passar início pro lado direito
 
-                printf("%s:\n", rotas.rot_inicio.nome);
-                printf("ifFalse %s goto %s\n", $3.nome, rotas.rot_fim.nome);
+                fprintf(codigo_3_enderecos, "%s:\n", rotas.rot_inicio.nome);
+                fprintf(codigo_3_enderecos, "ifFalse %s goto %s\n", $3.nome, rotas.rot_fim.nome);
             } comand {
-                printf("goto %s\n", $<rotulos>5.rot_inicio.nome); // volta pro início
-                printf("%s:\n", $<rotulos>5.rot_fim.nome);     // fim do while
+                fprintf(codigo_3_enderecos, "goto %s\n", $<rotulos>5.rot_inicio.nome); // volta pro início
+                fprintf(codigo_3_enderecos, "%s:\n", $<rotulos>5.rot_fim.nome);     // fim do while
             }
 
             | WHILE ABREPARENTESES error FECHAPARENTESES comand
@@ -308,7 +310,7 @@ returnDecl  : RETURN PONTO_VIRGULA
 
 //20
 expr   : var ATRIBUICAO expr { 
-                printf("%s = %s\n", $1.nome, $3.nome);
+                fprintf(codigo_3_enderecos, "%s = %s\n", $1.nome, $3.nome);
                 $$ = $1;
             }
             | exprSimples {$$ = $1;}
@@ -318,7 +320,7 @@ expr   : var ATRIBUICAO expr {
 exprSimples : exprSoma RELOP exprSoma {
                 Atributo resultado;
                 resultado.nome = new_temp();
-                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
                 $$ = resultado;
             } 
             | exprSoma {$$ = $1;}      
@@ -327,13 +329,13 @@ exprSimples : exprSoma RELOP exprSoma {
 exprSoma  :  exprSoma MAIS termo {
                 Atributo resultado;
                 resultado.nome = new_temp();
-                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
                 $$ = resultado;
             }
             | exprSoma MENOS termo {
                 Atributo resultado;
                 resultado.nome = new_temp();
-                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
                 $$ = resultado;
             }
             | termo {
@@ -344,7 +346,7 @@ exprSoma  :  exprSoma MAIS termo {
 termo : termo MULT fator {
                 Atributo resultado;
                 resultado.nome = new_temp();
-                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2, $3.nome);
+                fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, $1.nome, $2, $3.nome);
                 $$ = resultado;
             }
             | fator {
@@ -383,7 +385,7 @@ fator   : ABREPARENTESES expr FECHAPARENTESES   {
             | MENOS fator %prec UMINUS {
                 Atributo resultado;
                 resultado.nome = new_temp();
-                printf("%s = -%s\n", resultado.nome, $2.nome);
+                fprintf(codigo_3_enderecos, "%s = -%s\n", resultado.nome, $2.nome);
                 $$ = resultado;
             }
             ;
@@ -397,7 +399,7 @@ ativacao  : ID ABREPARENTESES args FECHAPARENTESES
                 Atributo resultado;
                 resultado.nome = new_temp();
                 $$ = resultado;
-                printf("%s = call %s %d\n", resultado.nome, strdup($1), $3);
+                fprintf(codigo_3_enderecos, "%s = call %s %d\n", resultado.nome, strdup($1), $3);
                 free($1);
             }
             ;
@@ -407,11 +409,11 @@ args : argLista { $$ = $1; }
      ;
 //32
 argLista  :  expr {
-                printf("param %s\n", $1.nome);
+                fprintf(codigo_3_enderecos, "param %s\n", $1.nome);
                 $$ = 1;
             }
             | argLista VIRGULA expr {
-                printf("param %s\n", $3.nome);
+                fprintf(codigo_3_enderecos, "param %s\n", $3.nome);
                 $$ = $1 + 1;
             }
             ;
@@ -462,6 +464,14 @@ int main(int argc, char **argv) {
         return -2;
     }
 
+    // Abre o arquivo para código de 3 endereços
+    codigo_3_enderecos = fopen("codigo_3_enderecos.txt", "w");
+    if (!codigo_3_enderecos) {
+        printf("Erro ao criar arquivo de código de 3 endereços.\n");
+        fclose(arq_compilado);
+        return -3;
+    }
+
     // Inicializa a tabela de símbolos
     init_symbol_table();
 
@@ -470,6 +480,7 @@ int main(int argc, char **argv) {
         printf("\n==========================================\n");
         printf("Análise sintática concluída com sucesso!\n");
         printf("==========================================\n");
+        printf("Código de 3 endereços gerado em: codigo_3_enderecos.txt\n");
         
         // Imprime a tabela de símbolos final
         print_all_symbol_tables(current_table);
@@ -477,6 +488,10 @@ int main(int argc, char **argv) {
 
     // Libera memória da tabela de símbolos
     cleanup_symbol_table();
+    
+    // Fecha os arquivos
     fclose(arq_compilado);
+    fclose(codigo_3_enderecos);
+    
     return 0;
 }
