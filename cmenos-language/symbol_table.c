@@ -111,8 +111,8 @@ int insert_symbol(SymbolTable *table, const char *name, const char *type) {
     new_symbol->next = table->table[index];
     table->table[index] = new_symbol;
     
-    printf("Símbolo '%s' (tipo: %s) inserido, offset: %d\n", 
-           name, type, new_symbol->offset);
+//    printf("Símbolo '%s' (tipo: %s) inserido, offset: %d\n", 
+//           name, type, new_symbol->offset);
     
     return 1; // Sucesso
 }
@@ -166,7 +166,7 @@ void enter_scope() {
     SymbolTable *new_table = create_symbol_table(current_table);
     if (new_table != NULL) {
         current_table = new_table;
-        printf("Entrando em novo escopo\n");
+//        printf("Entrando em novo escopo\n");
     } else {
         printf("ERRO: Não foi possível criar novo escopo\n");
     }
@@ -195,7 +195,7 @@ void exit_scope() {
     //     }
     // }
     
-    printf("Saindo do escopo atual\n");
+//    printf("Saindo do escopo atual\n");
     //destroy_symbol_table(current_table);
     current_table = parent;
 }

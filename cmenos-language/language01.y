@@ -3,6 +3,8 @@
     #include <stdlib.h>
     #include <string.h>
     #include "symbol_table.h"
+    #include "label_stack.h"
+
     extern FILE *yyin;
 
     extern int yylex();
@@ -12,17 +14,46 @@
     extern int line_number;
     extern int column_number;
     extern char *yytext;
+
+    int temp_count = 0;
+    int label_count = 0;    
+
+    LabelStack label_stack;
+
+
+    char* new_temp() {
+        char* temp = (char*)malloc(10);
+        sprintf(temp, "t%d", temp_count++);
+        return temp;
+    }
+
+    char* new_label() {
+        char* temp = (char*)malloc(10);
+        sprintf(temp, "l%d", label_count++);
+        return temp;
+    }
 %}
 
 %code requires {
     #include "symbol_table.h"
+    #define MAX_STACK_SIZE 100
+    typedef struct {
+        char* nome;
+    } Atributo;
+    typedef struct {
+        Atributo rot_inicio;
+        Atributo rot_fim;
+    } Rots;
 }
 
 %union {
     char *string;
     int integer;
     float real;
+    Atributo attr;
+    Rots rotulos;
 }
+
 
 %token <string> ID
 %token <integer> NUMINT
@@ -31,9 +62,10 @@
 %token ABRECOLCHETE
 %token FECHACOLCHETE
 %token ATRIBUICAO
-%token RELOP
-%token SOMA
-%token MULT
+%token <string> RELOP
+%token <string> MAIS
+%token <string> MENOS
+%token <string> MULT
 %token ABREPARENTESES
 %token FECHAPARENTESES
 %token ABRECHAVE
@@ -53,9 +85,15 @@
 %token FOR
 %token BOOLEAN
 
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
+
+%type <attr> expr exprSimples exprSoma termo fator var
+%type <attr> ativacao
+
 %type <string> tipoEspc   
 
-%left SOMA
+%left MAIS MENOS
 %left MULT
 %right UMINUS
 
@@ -79,10 +117,7 @@ declaracao  : funDeclaracao
 varDeclaracao : tipoEspc ID PONTO_VIRGULA
             { 
                 if (!insert_symbol(current_table, $2, $1)) {
-                    yyerror("Erro na declaração de variável");
                 }
-                free($2);
-                free($1);
             }
             | tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA
             {
@@ -207,14 +242,56 @@ exprDecl  : expr PONTO_VIRGULA
             ;
 
 //16
-selecDecl : IF ABREPARENTESES expr FECHAPARENTESES comand
-            | IF ABREPARENTESES expr FECHAPARENTESES comand ELSE comand
+selecDecl : IF ABREPARENTESES expr FECHAPARENTESES{
+                char* label_init = new_label();
+                char* label_end = new_label();
+
+                LabelPair pair;
+                pair.label1 = strdup(label_init);
+                pair.label2 = strdup(label_end);
+                push_label(&label_stack, pair);
+                
+                printf("ifFalse %s goto %s\n", $3.nome, label_init);  
+            }
+            comand else_opt
             | IF ABREPARENTESES error FECHAPARENTESES comand
             { printf("ERRO: Condição inválida no comando IF na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
+else_opt: %prec LOWER_THAN_ELSE{
+            LabelPair pair = pop_label(&label_stack);
+            printf("%s:\n", pair.label1);
+            free(pair.label1);
+            free(pair.label2);
+        }
+        | ELSE {
+                LabelPair pair = pop_label(&label_stack);
+                printf("goto %s\n", pair.label2);
+                printf("%s:\n", pair.label1 );
+                $<string>$ = pair.label2;
+                free(pair.label1);
+            } comand {
+                char* label_end = $<string>2;
+                printf("%s:\n", label_end);
+                free(label_end);
+            }
+            ;
 
 //18
-iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES comand
+iterDecl  : WHILE ABREPARENTESES expr FECHAPARENTESES{
+                Rots rotas;
+
+                rotas.rot_inicio.nome = new_label();
+                rotas.rot_fim.nome    = new_label();
+
+                $<rotulos>$ = rotas; // passar início pro lado direito
+
+                printf("%s:\n", rotas.rot_inicio.nome);
+                printf("ifFalse %s goto %s\n", $3.nome, rotas.rot_fim.nome);
+            } comand {
+                printf("goto %s\n", $<rotulos>5.rot_inicio.nome); // volta pro início
+                printf("%s:\n", $<rotulos>5.rot_fim.nome);     // fim do while
+            }
+
             | WHILE ABREPARENTESES error FECHAPARENTESES comand
             { printf("ERRO: Condição inválida no comando WHILE na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
             ;
@@ -228,31 +305,85 @@ returnDecl  : RETURN PONTO_VIRGULA
 
 
 //20
-expr   : var ATRIBUICAO expr 
-            | exprSimples    
+expr   : var ATRIBUICAO expr { 
+                printf("%s = %s\n", $1.nome, $3.nome);
+                $$ = $1;
+            }
+            | exprSimples {$$ = $1;}
             ;
             
 //22
-exprSimples : exprSoma RELOP exprSoma   
-            | exprSoma                
+exprSimples : exprSoma RELOP exprSoma {
+                Atributo resultado;
+                resultado.nome = new_temp();
+                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                $$ = resultado;
+            } 
+            | exprSoma {$$ = $1;}      
             ;
 //23
-exprSoma  :  exprSoma SOMA termo 
-            | termo
+exprSoma  :  exprSoma MAIS termo {
+                Atributo resultado;
+                resultado.nome = new_temp();
+                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                $$ = resultado;
+            }
+            | exprSoma MENOS termo {
+                Atributo resultado;
+                resultado.nome = new_temp();
+                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2,  $3.nome);
+                $$ = resultado;
+            }
+            | termo {
+                $$ = $1;
+            }
             ;
 //27
-termo : termo MULT fator
-            | fator
+termo : termo MULT fator {
+                Atributo resultado;
+                resultado.nome = new_temp();
+                printf("%s = %s %s %s\n", resultado.nome, $1.nome, $2, $3.nome);
+                $$ = resultado;
+            }
+            | fator {
+                $$ = $1;
+            }
+
             ;
 
 //29
-fator   : ABREPARENTESES expr FECHAPARENTESES  
+fator   : ABREPARENTESES expr FECHAPARENTESES   {
+                $$ = $2;
+            }
 
-            | var
-            | ativacao
-            | NUMFLOAT
-            | NUMINT
-            | '-' fator %prec UMINUS
+            | var {
+                Atributo resultado;
+                resultado = $1;
+                $$ = resultado;
+            }
+            | ativacao {
+                $$ = $1;
+            }
+            | NUMFLOAT  {
+                Atributo resultado;
+                char* temp = (char*)malloc(20);
+                sprintf(temp, "%f", $1);
+                resultado.nome = temp;
+                $$ = resultado;
+            }
+            | NUMINT  {
+                Atributo resultado;
+                char* temp = (char*)malloc(20);
+                sprintf(temp, "%d", $1);
+                resultado.nome = temp;
+                $$ = resultado;
+            }
+            | MENOS fator %prec UMINUS {
+                Atributo resultado;
+                resultado.nome = new_temp();
+                printf("%s = -%s\n", resultado.nome, $2.nome);
+                $$ = resultado;
+            }
             ;
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
@@ -261,7 +392,10 @@ ativacao  : ID ABREPARENTESES args FECHAPARENTESES
                 if (sym == NULL) {
                     printf("ERRO: Função '%s' não foi declarada\n", $1);
                 }
-                free($1);
+                Atributo resultado;
+                resultado.nome = strdup($1);
+                $$ = resultado;
+                printf("call %s 3\n", strdup($1));
             }
             ;
 //31
@@ -269,8 +403,16 @@ args : argLista
             |
             ;
 //32
-argLista  :  expr 
-            | argLista VIRGULA expr
+argLista  :  expr {
+                Atributo temp;
+                temp.nome = new_temp();
+                printf("param %s\n", temp.nome);
+            }
+            | argLista VIRGULA expr {
+                Atributo temp;
+                temp.nome = new_temp();
+                printf("param %s\n", temp.nome);
+            }
             ;
 
 //21
@@ -280,7 +422,10 @@ var    : ID
                 if (sym == NULL) {
                     printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", $1);
                 }
-                free($1);
+                Atributo resultado;
+                resultado.nome = strdup($1);
+                $$ = resultado;
+
             }
             | ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha
             {
@@ -290,6 +435,9 @@ var    : ID
                 } else if (strstr(sym->type, "array") == NULL) {
                     printf("ERRO: '%s' não é um array\n", $1);
                 }
+                Atributo resultado;
+                resultado.nome = strdup($1);
+                $$ = resultado;
                 free($1);
             }
             ;

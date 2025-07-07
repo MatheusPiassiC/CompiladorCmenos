@@ -45,11 +45,19 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 17 "language01.y"
+#line 37 "language01.y"
 
     #include "symbol_table.h"
+    #define MAX_STACK_SIZE 100
+    typedef struct {
+        char* nome;
+    } Atributo;
+    typedef struct {
+        Atributo rot_inicio;
+        Atributo rot_fim;
+    } Rots;
 
-#line 53 "parser.tab.h"
+#line 61 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -68,27 +76,29 @@ extern int yydebug;
     FECHACOLCHETE = 263,           /* FECHACOLCHETE  */
     ATRIBUICAO = 264,              /* ATRIBUICAO  */
     RELOP = 265,                   /* RELOP  */
-    SOMA = 266,                    /* SOMA  */
-    MULT = 267,                    /* MULT  */
-    ABREPARENTESES = 268,          /* ABREPARENTESES  */
-    FECHAPARENTESES = 269,         /* FECHAPARENTESES  */
-    ABRECHAVE = 270,               /* ABRECHAVE  */
-    FECHACHAVE = 271,              /* FECHACHAVE  */
-    IF = 272,                      /* IF  */
-    ELSE = 273,                    /* ELSE  */
-    WHILE = 274,                   /* WHILE  */
-    INT = 275,                     /* INT  */
-    FLOAT = 276,                   /* FLOAT  */
-    CHAR = 277,                    /* CHAR  */
-    VOID = 278,                    /* VOID  */
-    STRUCT = 279,                  /* STRUCT  */
-    RETURN = 280,                  /* RETURN  */
-    PONTO_VIRGULA = 281,           /* PONTO_VIRGULA  */
-    NOT = 282,                     /* NOT  */
-    VIRGULA = 283,                 /* VIRGULA  */
-    FOR = 284,                     /* FOR  */
-    BOOLEAN = 285,                 /* BOOLEAN  */
-    UMINUS = 286                   /* UMINUS  */
+    MAIS = 266,                    /* MAIS  */
+    MENOS = 267,                   /* MENOS  */
+    MULT = 268,                    /* MULT  */
+    ABREPARENTESES = 269,          /* ABREPARENTESES  */
+    FECHAPARENTESES = 270,         /* FECHAPARENTESES  */
+    ABRECHAVE = 271,               /* ABRECHAVE  */
+    FECHACHAVE = 272,              /* FECHACHAVE  */
+    IF = 273,                      /* IF  */
+    ELSE = 274,                    /* ELSE  */
+    WHILE = 275,                   /* WHILE  */
+    INT = 276,                     /* INT  */
+    FLOAT = 277,                   /* FLOAT  */
+    CHAR = 278,                    /* CHAR  */
+    VOID = 279,                    /* VOID  */
+    STRUCT = 280,                  /* STRUCT  */
+    RETURN = 281,                  /* RETURN  */
+    PONTO_VIRGULA = 282,           /* PONTO_VIRGULA  */
+    NOT = 283,                     /* NOT  */
+    VIRGULA = 284,                 /* VIRGULA  */
+    FOR = 285,                     /* FOR  */
+    BOOLEAN = 286,                 /* BOOLEAN  */
+    LOWER_THAN_ELSE = 287,         /* LOWER_THAN_ELSE  */
+    UMINUS = 288                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -97,13 +107,15 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "language01.y"
+#line 49 "language01.y"
 
     char *string;
     int integer;
     float real;
+    Atributo attr;
+    Rots rotulos;
 
-#line 107 "parser.tab.h"
+#line 119 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
