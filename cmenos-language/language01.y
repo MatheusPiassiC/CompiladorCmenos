@@ -390,7 +390,7 @@ fator   : ABREPARENTESES expr FECHAPARENTESES   {
 //30
 ativacao  : ID ABREPARENTESES args FECHAPARENTESES
             {
-                Symbol *sym = lookup_symbol($1);
+                Symbol *sym = lookup_symbol(current_table, $1);
                 if (sym == NULL) {
                     yyerror("Função não declarada");
                 }
