@@ -1,0 +1,17 @@
+int main(void) {
+    int resultado;
+    
+    int x;
+    x = 5;
+    
+    int y;  // Declaração após comando - agora permitido!
+    y = 10;
+    
+    float altura;  // Outra declaração intercalada
+    altura = 1.75;
+
+    float arr[10];  // Array declarado após outros comandos
+    arr[1];
+    
+    return 0;
+} 

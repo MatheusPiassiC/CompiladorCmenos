@@ -2,11 +2,13 @@
 
 # regras 4, 5 - declaracoes de variaveis com diferentes tipos
 int numerointeiro;
-int numerointeiro;
+
+void teste(void){
+    int vetor[10];
+}
 
 float numerofloat;
 char caractere;
-int vetor[10];
 float matriz[5][3];
 
 # regra 5 - estrutura (struct)
