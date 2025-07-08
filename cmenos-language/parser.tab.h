@@ -51,13 +51,14 @@ extern int yydebug;
     #define MAX_STACK_SIZE 100
     typedef struct {
         char* nome;
+        SymbolType tipo;  // Adiciona informação de tipo semântico
     } Atributo;
     typedef struct {
         Atributo rot_inicio;
         Atributo rot_fim;
     } Rots;
 
-#line 61 "parser.tab.h"
+#line 62 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -107,7 +108,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 51 "language01.y"
+#line 52 "language01.y"
 
     char *string;
     int integer;
@@ -116,7 +117,7 @@ union YYSTYPE
     Rots rotulos;
     int param_counter;
 
-#line 120 "parser.tab.h"
+#line 121 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

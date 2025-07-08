@@ -539,7 +539,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  79
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  145
+#define YYNSTATES  146
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   288
@@ -591,14 +591,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   107,   107,   111,   112,   116,   117,   121,   126,   136,
-     143,   145,   149,   150,   153,   155,   157,   159,   164,   165,
-     170,   180,   182,   184,   188,   189,   193,   194,   198,   206,
-     219,   219,   224,   225,   229,   230,   234,   235,   236,   237,
-     238,   239,   244,   245,   249,   249,   261,   264,   270,   270,
-     284,   284,   299,   304,   305,   306,   312,   316,   320,   326,
-     329,   335,   341,   346,   352,   359,   363,   368,   371,   378,
-     385,   393,   407,   408,   411,   415,   422,   433,   447,   448
+       0,   108,   108,   112,   113,   117,   118,   122,   129,   139,
+     146,   148,   152,   153,   156,   158,   160,   162,   167,   168,
+     173,   183,   185,   187,   191,   192,   196,   197,   201,   209,
+     222,   222,   227,   228,   232,   233,   237,   238,   239,   240,
+     241,   242,   247,   248,   252,   252,   264,   267,   273,   273,
+     287,   287,   302,   307,   308,   309,   315,   335,   339,   352,
+     355,   370,   385,   390,   405,   412,   416,   430,   433,   441,
+     449,   463,   481,   482,   485,   489,   496,   508,   565,   579
 };
 #endif
 
@@ -635,7 +635,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-72)
+#define YYPACT_NINF (-91)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -649,21 +649,21 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      83,   -20,   -72,   -72,   -72,   -72,    15,    24,    92,   -72,
-     -72,    54,   -72,   -72,    30,   -72,   -72,    14,    -4,   119,
-      45,   -72,    18,    10,   -72,   119,    93,    42,    48,    70,
-      63,    53,   -72,    78,    87,    84,    95,   -72,    85,     2,
-     -72,   117,   110,   127,   104,   126,   110,   110,   131,   -72,
-     -72,   -72,   -72,   142,   125,   -72,   -72,   -72,   -72,   145,
-     -72,   119,   126,   -72,    44,   -72,   128,    -1,   -72,   -72,
-      97,    97,   -72,   140,   143,    76,   -72,   -72,   -72,   -72,
-     -72,   -72,   -72,   129,   -72,    41,   146,   -72,   -72,   149,
-     -72,    97,    97,   -72,   -72,   147,   118,   133,   134,   -72,
-     136,   -72,    97,    97,    97,    97,    97,   152,   -72,   150,
-     135,   -72,   151,   153,   154,   155,   -72,   -72,    31,   146,
-     146,   -72,   -72,   -72,   -72,    97,    71,   -72,    71,   -72,
-     160,   -72,   -72,    71,   -72,    71,    97,   156,   -72,   163,
-     -72,   -72,   -72,    71,   -72
+      74,   -16,   -91,   -91,   -91,   -91,    25,    72,    90,   -91,
+     -91,    21,   -91,   -91,    35,   -91,   -91,    -8,    -4,   118,
+      82,   -91,    51,    10,   -91,   118,    76,    40,    58,    83,
+      78,    87,   -91,    79,    93,    94,   108,   -91,   100,     2,
+     -91,   122,   115,   127,   105,   137,   115,   115,   126,   -91,
+     -91,   -91,   -91,   142,   125,   -91,   -91,   -91,   -91,   145,
+     -91,   118,   137,   -91,    44,   -91,   128,    39,   -91,   -91,
+     133,   133,   -91,   140,   143,    80,   -91,   -91,   -91,   -91,
+     -91,   -91,   -91,   129,   -91,    31,   146,   -91,   -91,   149,
+     -91,   133,   133,   -91,   -91,   147,   116,   121,   134,   -91,
+     136,   -91,   133,   133,   133,   133,   133,   152,   -91,   150,
+     135,   -91,   151,   153,   154,   155,   -91,   -91,    57,   146,
+     146,   -91,   -91,   160,   -91,   133,    62,   -91,    62,   -91,
+     133,   -91,   -91,   -91,    62,   -91,    62,   163,   156,   -91,
+     160,   -91,   -91,   -91,    62,   -91
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -684,26 +684,26 @@ static const yytype_int8 yydefact[] =
        0,    42,     0,     0,     0,     0,     0,     0,    74,     0,
       72,    65,     0,     0,     0,     0,    55,    54,    58,    60,
       61,    63,    56,    79,    71,     0,     0,    44,     0,    50,
-      77,    75,    46,     0,    52,     0,     0,    47,    51,     0,
-      48,    45,    78,     0,    49
+       0,    77,    75,    46,     0,    52,     0,     0,    47,    51,
+      79,    48,    45,    78,     0,    49
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -72,   -72,   -72,   164,   -17,   111,     7,   157,   -72,   158,
-     -72,   137,   -30,   -72,   -72,   -72,    -8,   -72,   -72,   -72,
-     -72,   -72,   -72,   -72,   -72,   -71,   -72,    72,    25,   -69,
-     -72,   -72,   -72,   -65,   -72
+     -91,   -91,   -91,   164,   -17,   111,     7,   157,   -91,   158,
+     -91,   131,   -30,   -91,   -91,   -91,   -26,   -91,   -91,   -91,
+     -91,   -91,   -91,   -91,   -91,   -71,   -91,    75,   -90,   -69,
+     -91,   -91,   -91,   -65,    36
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
        0,     7,     8,     9,    10,    54,    26,    27,    12,    30,
-      31,    32,    77,    58,    61,    64,    78,    79,    80,   133,
-     141,   143,    81,   135,    82,    83,    84,    85,    86,    87,
-      88,   109,   110,    89,   130
+      31,    32,    77,    58,    61,    64,    78,    79,    80,   134,
+     142,   144,    81,   136,    82,    83,    84,    85,    86,    87,
+      88,   109,   110,    89,   131
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -711,48 +711,48 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      95,    93,    25,    22,   100,    94,    91,    11,    25,    22,
-      23,    35,    50,    92,    13,    11,    55,    56,    14,    33,
-     107,   108,    34,    24,    15,   113,   115,    29,    20,    24,
+      95,    93,    25,    22,   100,    94,    20,    11,    25,    22,
+      23,    35,    50,   119,   120,    11,    55,    56,    13,    21,
+     107,   108,    17,    24,    18,   113,   115,    29,    14,    24,
       29,     2,     3,     4,    28,   122,   121,    94,    94,    94,
-      94,    21,   103,   104,    63,    66,    19,    67,    68,    69,
-      29,   102,   103,   104,   131,    17,    70,    18,    71,    40,
-      49,    72,    73,   -25,    74,   139,     2,     3,     4,    28,
-      75,    76,    66,    41,    67,    68,    69,    98,    42,    67,
-      68,    69,    43,    70,     1,    71,    44,    49,    70,    73,
-      71,    74,    -2,     1,    38,    45,    39,    75,    76,    46,
-      67,    68,    69,    99,     2,     3,     4,     5,     6,    70,
-      47,    71,    21,     2,     3,     4,     5,     6,   132,   112,
-     134,    67,    68,    69,    48,   137,    49,   138,   119,   120,
-      70,    52,    71,    53,   114,   144,    67,    68,    69,    57,
-       2,     3,     4,     5,     6,    70,    59,    71,     2,     3,
+      94,   102,   103,   104,    63,    66,    91,    67,    68,    69,
+      29,    19,    33,    92,   132,    34,    70,    40,    71,   137,
+      49,    72,    73,    66,    74,    67,    68,    69,   103,   104,
+      75,    76,    15,   -25,    70,     1,    71,    38,    49,    39,
+      73,    98,    74,    67,    68,    69,    41,    44,    75,    76,
+      -2,     1,    70,    42,    71,     2,     3,     4,     5,     6,
+     133,    45,   135,     2,     3,     4,    28,    99,   138,    46,
+     139,     2,     3,     4,     5,     6,    43,   112,   145,    67,
+      68,    69,   114,    47,    67,    68,    69,    21,    70,    48,
+      71,    49,    52,    70,    57,    71,    67,    68,    69,     2,
+       3,     4,     5,     6,    53,    70,    59,    71,     2,     3,
        4,     5,    60,    62,    96,    90,   101,    97,   106,   105,
-     123,   116,   111,   117,   125,   124,   126,   136,   127,   128,
-     129,   142,    16,    65,   118,   140,     0,     0,     0,     0,
-      51,    36,    37
+     123,   116,   111,   117,   125,   124,   126,   130,   127,   128,
+     129,   140,    16,    65,    51,   141,   143,   118,     0,     0,
+       0,    36,    37
 };
 
 static const yytype_int16 yycheck[] =
 {
-      71,    70,    19,     7,    75,    70,     7,     0,    25,     7,
-      14,     1,    42,    14,    34,     8,    46,    47,     3,     1,
-      91,    92,     4,    27,     0,    96,    97,    20,    14,    27,
+      71,    70,    19,     7,    75,    70,    14,     0,    25,     7,
+      14,     1,    42,   103,   104,     8,    46,    47,    34,    27,
+      91,    92,     1,    27,     3,    96,    97,    20,     3,    27,
       23,    21,    22,    23,    24,   106,   105,   102,   103,   104,
-     105,    27,    11,    12,    61,     1,    16,     3,     4,     5,
-      43,    10,    11,    12,   125,     1,    12,     3,    14,    17,
-      16,    17,    18,    15,    20,   136,    21,    22,    23,    24,
-      26,    27,     1,     3,     3,     4,     5,     1,    15,     3,
-       4,     5,    29,    12,     1,    14,     8,    16,    12,    18,
-      14,    20,     0,     1,     1,     8,     3,    26,    27,    15,
-       3,     4,     5,    27,    21,    22,    23,    24,    25,    12,
-      15,    14,    27,    21,    22,    23,    24,    25,   126,     1,
-     128,     3,     4,     5,     7,   133,    16,   135,   103,   104,
-      12,    27,    14,     7,     1,   143,     3,     4,     5,     8,
-      21,    22,    23,    24,    25,    12,     4,    14,    21,    22,
+     105,    10,    11,    12,    61,     1,     7,     3,     4,     5,
+      43,    16,     1,    14,   125,     4,    12,    17,    14,   130,
+      16,    17,    18,     1,    20,     3,     4,     5,    11,    12,
+      26,    27,     0,    15,    12,     1,    14,     1,    16,     3,
+      18,     1,    20,     3,     4,     5,     3,     8,    26,    27,
+       0,     1,    12,    15,    14,    21,    22,    23,    24,    25,
+     126,     8,   128,    21,    22,    23,    24,    27,   134,    15,
+     136,    21,    22,    23,    24,    25,    29,     1,   144,     3,
+       4,     5,     1,    15,     3,     4,     5,    27,    12,     7,
+      14,    16,    27,    12,     8,    14,     3,     4,     5,    21,
+      22,    23,    24,    25,     7,    12,     4,    14,    21,    22,
       23,    24,    27,     8,    14,    27,    27,    14,     9,    13,
        8,    27,    15,    27,    29,    15,    15,     7,    15,    15,
-      15,     8,     8,    62,   102,    19,    -1,    -1,    -1,    -1,
-      43,    23,    25
+      15,     8,     8,    62,    43,    19,   140,   102,    -1,    -1,
+      -1,    23,    25
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -772,8 +772,8 @@ static const yytype_int8 yystos[] =
       60,    27,    10,    11,    12,    13,     9,    60,    60,    66,
       67,    15,     1,    60,     1,    60,    27,    27,    62,    63,
       63,    64,    60,     8,    15,    29,    15,    15,    15,    15,
-      69,    60,    51,    54,    51,    58,     7,    51,    51,    60,
-      19,    55,     8,    56,    51
+       7,    69,    60,    51,    54,    51,    58,    60,    51,    51,
+       8,    19,    55,    69,    56,    51
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
@@ -1263,153 +1263,155 @@ yyreduce:
   switch (yyn)
     {
   case 7: /* varDeclaracao: tipoEspc ID PONTO_VIRGULA  */
-#line 122 "language01.y"
+#line 123 "language01.y"
             { 
-                if (!insert_symbol(current_table, (yyvsp[-1].string), (yyvsp[-2].string))) {
+                if (!inserirSimbolo(current_table, (yyvsp[-1].string), (yyvsp[-2].string))) {
                 }
+                free((yyvsp[-1].string));
+                free((yyvsp[-2].string));
             }
-#line 1272 "parser.tab.c"
+#line 1274 "parser.tab.c"
     break;
 
   case 8: /* varDeclaracao: tipoEspc ID ABRECOLCHETE NUMINT FECHACOLCHETE abreNumFecha PONTO_VIRGULA  */
-#line 127 "language01.y"
+#line 130 "language01.y"
             {
                 char array_type[50];
                 snprintf(array_type, sizeof(array_type), "%s_array[%d]", (yyvsp[-6].string), (yyvsp[-3].integer));
-                if (!insert_symbol(current_table, (yyvsp[-5].string), array_type)) {
+                if (!inserirSimbolo(current_table, (yyvsp[-5].string), array_type)) {
                     yyerror("Erro na declaração de array");
                 }
                 free((yyvsp[-5].string));
                 free((yyvsp[-6].string));
             }
-#line 1286 "parser.tab.c"
+#line 1288 "parser.tab.c"
     break;
 
   case 9: /* varDeclaracao: STRUCT ID ABRECHAVE atriDeclara FECHACHAVE  */
-#line 137 "language01.y"
+#line 140 "language01.y"
             {
-                if (!insert_symbol(current_table, (yyvsp[-3].string), "struct")) {
+                if (!inserirSimbolo(current_table, (yyvsp[-3].string), "struct")) {
                     yyerror("Erro na declaração de struct");
                 }
                 free((yyvsp[-3].string));
             }
-#line 1297 "parser.tab.c"
+#line 1299 "parser.tab.c"
     break;
 
   case 10: /* varDeclaracao: tipoEspc error PONTO_VIRGULA  */
-#line 144 "language01.y"
+#line 147 "language01.y"
             { printf("ERRO: Declaração de variável inválida na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1303 "parser.tab.c"
+#line 1305 "parser.tab.c"
     break;
 
   case 11: /* varDeclaracao: tipoEspc ID ABRECOLCHETE error FECHACOLCHETE PONTO_VIRGULA  */
-#line 146 "language01.y"
+#line 149 "language01.y"
             { printf("ERRO: Valor inválido ou ausente para o tamanho do arrayna linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1309 "parser.tab.c"
+#line 1311 "parser.tab.c"
     break;
 
   case 14: /* tipoEspc: INT  */
-#line 154 "language01.y"
+#line 157 "language01.y"
             { (yyval.string) = strdup("int"); }
-#line 1315 "parser.tab.c"
+#line 1317 "parser.tab.c"
     break;
 
   case 15: /* tipoEspc: FLOAT  */
-#line 156 "language01.y"
+#line 159 "language01.y"
             { (yyval.string) = strdup("float"); }
-#line 1321 "parser.tab.c"
+#line 1323 "parser.tab.c"
     break;
 
   case 16: /* tipoEspc: CHAR  */
-#line 158 "language01.y"
+#line 161 "language01.y"
             { (yyval.string) = strdup("char"); }
-#line 1327 "parser.tab.c"
+#line 1329 "parser.tab.c"
     break;
 
   case 17: /* tipoEspc: VOID  */
-#line 160 "language01.y"
+#line 163 "language01.y"
             { (yyval.string) = strdup("void"); }
-#line 1333 "parser.tab.c"
+#line 1335 "parser.tab.c"
     break;
 
   case 20: /* funDeclaracao: tipoEspc ID ABREPARENTESES params FECHAPARENTESES compostDecl  */
-#line 171 "language01.y"
+#line 174 "language01.y"
             {
                 char func_type[50];
                 snprintf(func_type, sizeof(func_type), "function_%s", (yyvsp[-5].string));
-                if (!insert_symbol(current_table, (yyvsp[-4].string), func_type)) {
+                if (!inserirSimbolo(current_table, (yyvsp[-4].string), func_type)) {
                     yyerror("Erro na declaração de função");
                 }
                 free((yyvsp[-4].string));
                 free((yyvsp[-5].string));
             }
-#line 1347 "parser.tab.c"
+#line 1349 "parser.tab.c"
     break;
 
   case 21: /* funDeclaracao: tipoEspc error ABREPARENTESES params FECHAPARENTESES compostDecl  */
-#line 181 "language01.y"
+#line 184 "language01.y"
             { printf("ERRO: Nome de função ausente ou inválido após o tipo de retorno na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1353 "parser.tab.c"
+#line 1355 "parser.tab.c"
     break;
 
   case 22: /* funDeclaracao: tipoEspc ID ABREPARENTESES error FECHAPARENTESES compostDecl  */
-#line 183 "language01.y"
+#line 186 "language01.y"
             { printf("ERRO: Lista de parâmetros malformada na declaração de função na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1359 "parser.tab.c"
+#line 1361 "parser.tab.c"
     break;
 
   case 23: /* funDeclaracao: error '\n'  */
-#line 184 "language01.y"
+#line 187 "language01.y"
                          { printf("Redução: ERRO NA REDUCAO PARA FUNDECLARACAO\n"); yyerrok;}
-#line 1365 "parser.tab.c"
+#line 1367 "parser.tab.c"
     break;
 
   case 28: /* param: tipoEspc ID  */
-#line 199 "language01.y"
+#line 202 "language01.y"
             {
-                if (!insert_symbol(current_table, (yyvsp[0].string), (yyvsp[-1].string))) {
+                if (!inserirSimbolo(current_table, (yyvsp[0].string), (yyvsp[-1].string))) {
                     yyerror("Erro na declaração de parâmetro");
                 }
                 free((yyvsp[0].string));
                 free((yyvsp[-1].string));
             }
-#line 1377 "parser.tab.c"
+#line 1379 "parser.tab.c"
     break;
 
   case 29: /* param: tipoEspc ID ABRECOLCHETE FECHACOLCHETE  */
-#line 207 "language01.y"
+#line 210 "language01.y"
             {
                 char param_type[50];
                 snprintf(param_type, sizeof(param_type), "%s_array", (yyvsp[-3].string));
-                if (!insert_symbol(current_table, (yyvsp[-2].string), param_type)) {
+                if (!inserirSimbolo(current_table, (yyvsp[-2].string), param_type)) {
                     yyerror("Erro na declaração de parâmetro array");
                 }
                 free((yyvsp[-2].string));
                 free((yyvsp[-3].string));
             }
-#line 1391 "parser.tab.c"
+#line 1393 "parser.tab.c"
     break;
 
   case 30: /* $@1: %empty  */
-#line 219 "language01.y"
+#line 222 "language01.y"
                         { enter_scope(); }
-#line 1397 "parser.tab.c"
+#line 1399 "parser.tab.c"
     break;
 
   case 31: /* compostDecl: ABRECHAVE $@1 localDecla comandLista FECHACHAVE  */
-#line 220 "language01.y"
+#line 223 "language01.y"
             { exit_scope(); }
-#line 1403 "parser.tab.c"
+#line 1405 "parser.tab.c"
     break;
 
   case 41: /* comand: error PONTO_VIRGULA  */
-#line 240 "language01.y"
+#line 243 "language01.y"
             { printf("ERRO: Comando sintaticamente inválido ou incompleto na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1409 "parser.tab.c"
+#line 1411 "parser.tab.c"
     break;
 
   case 44: /* $@2: %empty  */
-#line 249 "language01.y"
+#line 252 "language01.y"
                                                   {
                 char* label_init = new_label();
                 char* label_end = new_label();
@@ -1421,28 +1423,28 @@ yyreduce:
                 
                 fprintf(codigo_3_enderecos, "ifFalse %s goto %s\n", (yyvsp[-1].attr).nome, label_init);
             }
-#line 1425 "parser.tab.c"
+#line 1427 "parser.tab.c"
     break;
 
   case 46: /* selecDecl: IF ABREPARENTESES error FECHAPARENTESES comand  */
-#line 262 "language01.y"
+#line 265 "language01.y"
             { printf("ERRO: Condição inválida no comando IF na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1431 "parser.tab.c"
+#line 1433 "parser.tab.c"
     break;
 
   case 47: /* else_opt: %empty  */
-#line 264 "language01.y"
+#line 267 "language01.y"
                                {
             LabelPair pair = pop_label(&label_stack);
             fprintf(codigo_3_enderecos, "%s:\n", pair.label1);
             free(pair.label1);
             free(pair.label2);
         }
-#line 1442 "parser.tab.c"
+#line 1444 "parser.tab.c"
     break;
 
   case 48: /* @3: %empty  */
-#line 270 "language01.y"
+#line 273 "language01.y"
                {
                 LabelPair pair = pop_label(&label_stack);
                 fprintf(codigo_3_enderecos, "goto %s\n", pair.label2);
@@ -1450,21 +1452,21 @@ yyreduce:
                 (yyval.string) = pair.label2;
                 free(pair.label1);
             }
-#line 1454 "parser.tab.c"
+#line 1456 "parser.tab.c"
     break;
 
   case 49: /* else_opt: ELSE @3 comand  */
-#line 276 "language01.y"
+#line 279 "language01.y"
                      {
                 char* label_end = (yyvsp[-1].string);
                 fprintf(codigo_3_enderecos, "%s:\n", label_end);
                 free(label_end);
             }
-#line 1464 "parser.tab.c"
+#line 1466 "parser.tab.c"
     break;
 
   case 50: /* @4: %empty  */
-#line 284 "language01.y"
+#line 287 "language01.y"
                                                      {
                 Rots rotas;
 
@@ -1476,252 +1478,392 @@ yyreduce:
                 fprintf(codigo_3_enderecos, "%s:\n", rotas.rot_inicio.nome);
                 fprintf(codigo_3_enderecos, "ifFalse %s goto %s\n", (yyvsp[-1].attr).nome, rotas.rot_fim.nome);
             }
-#line 1480 "parser.tab.c"
+#line 1482 "parser.tab.c"
     break;
 
   case 51: /* iterDecl: WHILE ABREPARENTESES expr FECHAPARENTESES @4 comand  */
-#line 294 "language01.y"
+#line 297 "language01.y"
                      {
                 fprintf(codigo_3_enderecos, "goto %s\n", (yyvsp[-1].rotulos).rot_inicio.nome); // volta pro início
                 fprintf(codigo_3_enderecos, "%s:\n", (yyvsp[-1].rotulos).rot_fim.nome);     // fim do while
             }
-#line 1489 "parser.tab.c"
+#line 1491 "parser.tab.c"
     break;
 
   case 52: /* iterDecl: WHILE ABREPARENTESES error FECHAPARENTESES comand  */
-#line 300 "language01.y"
+#line 303 "language01.y"
             { printf("ERRO: Condição inválida no comando WHILE na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1495 "parser.tab.c"
+#line 1497 "parser.tab.c"
     break;
 
   case 55: /* returnDecl: RETURN error PONTO_VIRGULA  */
-#line 307 "language01.y"
+#line 310 "language01.y"
             { printf("ERRO: Valor de retorno inválido na linha %d, coluna %d\n", line_number, column_number); yyerrok; }
-#line 1501 "parser.tab.c"
+#line 1503 "parser.tab.c"
     break;
 
   case 56: /* expr: var ATRIBUICAO expr  */
-#line 312 "language01.y"
+#line 315 "language01.y"
                              { 
-                fprintf(codigo_3_enderecos, "%s = %s\n", (yyvsp[-2].attr).nome, (yyvsp[0].attr).nome);
+                // Verifica compatibilidade de tipos na atribuição
+                if (!types_compatible((yyvsp[-2].attr).tipo, (yyvsp[0].attr).tipo)) {
+                    printf("ERRO SEMÂNTICO: Incompatibilidade de tipos na atribuição. ");
+                    printf("Tentativa de atribuir %s a %s na linha %d\n", 
+                           symbol_type_to_string((yyvsp[0].attr).tipo), 
+                           symbol_type_to_string((yyvsp[-2].attr).tipo), 
+                           line_number);
+                }
+                
+                // Para arrays, o nome já vem no formato "array[endereco]"
+                if (strstr((yyvsp[-2].attr).nome, "[") != NULL) {
+                    // É uma atribuição a array
+                    fprintf(codigo_3_enderecos, "%s = %s\n", (yyvsp[-2].attr).nome, (yyvsp[0].attr).nome);
+                } else {
+                    // Atribuição normal a variável
+                    fprintf(codigo_3_enderecos, "%s = %s\n", (yyvsp[-2].attr).nome, (yyvsp[0].attr).nome);
+                }
                 (yyval.attr) = (yyvsp[-2].attr);
             }
-#line 1510 "parser.tab.c"
+#line 1528 "parser.tab.c"
     break;
 
   case 57: /* expr: exprSimples  */
-#line 316 "language01.y"
+#line 335 "language01.y"
                           {(yyval.attr) = (yyvsp[0].attr);}
-#line 1516 "parser.tab.c"
+#line 1534 "parser.tab.c"
     break;
 
   case 58: /* exprSimples: exprSoma RELOP exprSoma  */
-#line 320 "language01.y"
+#line 339 "language01.y"
                                       {
+                // Verifica se os operandos são compatíveis para comparação
+                if (!is_numeric_type((yyvsp[-2].attr).tipo) || !is_numeric_type((yyvsp[0].attr).tipo)) {
+                    printf("ERRO SEMÂNTICO: Operação relacional '%s' requer operandos numéricos na linha %d\n", 
+                           (yyvsp[-1].string), line_number);
+                }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                resultado.tipo = TYPE_INT; // Resultado de comparação é sempre int
                 fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, (yyvsp[-2].attr).nome, (yyvsp[-1].string),  (yyvsp[0].attr).nome);
                 (yyval.attr) = resultado;
             }
-#line 1527 "parser.tab.c"
+#line 1552 "parser.tab.c"
     break;
 
   case 59: /* exprSimples: exprSoma  */
-#line 326 "language01.y"
+#line 352 "language01.y"
                        {(yyval.attr) = (yyvsp[0].attr);}
-#line 1533 "parser.tab.c"
+#line 1558 "parser.tab.c"
     break;
 
   case 60: /* exprSoma: exprSoma MAIS termo  */
-#line 329 "language01.y"
+#line 355 "language01.y"
                                  {
+                // Verifica se os operandos são numéricos
+                SymbolType result_type = get_operation_result_type((yyvsp[-2].attr).tipo, (yyvsp[0].attr).tipo, (yyvsp[-1].string));
+                if (result_type == TYPE_ERROR) {
+                    printf("ERRO SEMÂNTICO: Operação '%s' entre tipos incompatíveis (%s e %s) na linha %d\n", 
+                           (yyvsp[-1].string), symbol_type_to_string((yyvsp[-2].attr).tipo), symbol_type_to_string((yyvsp[0].attr).tipo), line_number);
+                    result_type = TYPE_INT; // Fallback
+                }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                resultado.tipo = result_type;
                 fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, (yyvsp[-2].attr).nome, (yyvsp[-1].string),  (yyvsp[0].attr).nome);
                 (yyval.attr) = resultado;
             }
-#line 1544 "parser.tab.c"
+#line 1578 "parser.tab.c"
     break;
 
   case 61: /* exprSoma: exprSoma MENOS termo  */
-#line 335 "language01.y"
+#line 370 "language01.y"
                                    {
+                // Verifica se os operandos são numéricos
+                SymbolType result_type = get_operation_result_type((yyvsp[-2].attr).tipo, (yyvsp[0].attr).tipo, (yyvsp[-1].string));
+                if (result_type == TYPE_ERROR) {
+                    printf("ERRO SEMÂNTICO: Operação '%s' entre tipos incompatíveis (%s e %s) na linha %d\n", 
+                           (yyvsp[-1].string), symbol_type_to_string((yyvsp[-2].attr).tipo), symbol_type_to_string((yyvsp[0].attr).tipo), line_number);
+                    result_type = TYPE_INT; // Fallback
+                }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                resultado.tipo = result_type;
                 fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, (yyvsp[-2].attr).nome, (yyvsp[-1].string),  (yyvsp[0].attr).nome);
                 (yyval.attr) = resultado;
             }
-#line 1555 "parser.tab.c"
+#line 1598 "parser.tab.c"
     break;
 
   case 62: /* exprSoma: termo  */
-#line 341 "language01.y"
+#line 385 "language01.y"
                     {
                 (yyval.attr) = (yyvsp[0].attr);
             }
-#line 1563 "parser.tab.c"
+#line 1606 "parser.tab.c"
     break;
 
   case 63: /* termo: termo MULT fator  */
-#line 346 "language01.y"
+#line 390 "language01.y"
                          {
+                // Verifica se os operandos são numéricos
+                SymbolType result_type = get_operation_result_type((yyvsp[-2].attr).tipo, (yyvsp[0].attr).tipo, (yyvsp[-1].string));
+                if (result_type == TYPE_ERROR) {
+                    printf("ERRO SEMÂNTICO: Operação '%s' entre tipos incompatíveis (%s e %s) na linha %d\n", 
+                           (yyvsp[-1].string), symbol_type_to_string((yyvsp[-2].attr).tipo), symbol_type_to_string((yyvsp[0].attr).tipo), line_number);
+                    result_type = TYPE_INT; // Fallback
+                }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                resultado.tipo = result_type;
                 fprintf(codigo_3_enderecos, "%s = %s %s %s\n", resultado.nome, (yyvsp[-2].attr).nome, (yyvsp[-1].string), (yyvsp[0].attr).nome);
                 (yyval.attr) = resultado;
             }
-#line 1574 "parser.tab.c"
+#line 1626 "parser.tab.c"
     break;
 
   case 64: /* termo: fator  */
-#line 352 "language01.y"
+#line 405 "language01.y"
                     {
                 (yyval.attr) = (yyvsp[0].attr);
             }
-#line 1582 "parser.tab.c"
+#line 1634 "parser.tab.c"
     break;
 
   case 65: /* fator: ABREPARENTESES expr FECHAPARENTESES  */
-#line 359 "language01.y"
+#line 412 "language01.y"
                                                 {
                 (yyval.attr) = (yyvsp[-1].attr);
             }
-#line 1590 "parser.tab.c"
+#line 1642 "parser.tab.c"
     break;
 
   case 66: /* fator: var  */
-#line 363 "language01.y"
+#line 416 "language01.y"
                   {
                 Atributo resultado;
-                resultado = (yyvsp[0].attr);
+                
+                // Se é um array, precisamos gerar código para acessar o valor
+                if (strstr((yyvsp[0].attr).nome, "[") != NULL) {
+                    resultado.nome = new_temp();
+                    fprintf(codigo_3_enderecos, "%s = %s\n", resultado.nome, (yyvsp[0].attr).nome);
+                } else {
+                    // Variável normal
+                    resultado = (yyvsp[0].attr);
+                }
+                resultado.tipo = (yyvsp[0].attr).tipo;
                 (yyval.attr) = resultado;
             }
-#line 1600 "parser.tab.c"
+#line 1661 "parser.tab.c"
     break;
 
   case 67: /* fator: ativacao  */
-#line 368 "language01.y"
+#line 430 "language01.y"
                        {
                 (yyval.attr) = (yyvsp[0].attr);
             }
-#line 1608 "parser.tab.c"
+#line 1669 "parser.tab.c"
     break;
 
   case 68: /* fator: NUMFLOAT  */
-#line 371 "language01.y"
+#line 433 "language01.y"
                         {
                 Atributo resultado;
                 char* temp = (char*)malloc(20);
                 sprintf(temp, "%f", (yyvsp[0].real));
                 resultado.nome = temp;
+                resultado.tipo = TYPE_FLOAT;
                 (yyval.attr) = resultado;
             }
-#line 1620 "parser.tab.c"
+#line 1682 "parser.tab.c"
     break;
 
   case 69: /* fator: NUMINT  */
-#line 378 "language01.y"
+#line 441 "language01.y"
                       {
                 Atributo resultado;
                 char* temp = (char*)malloc(20);
                 sprintf(temp, "%d", (yyvsp[0].integer));
                 resultado.nome = temp;
+                resultado.tipo = TYPE_INT;
                 (yyval.attr) = resultado;
             }
-#line 1632 "parser.tab.c"
+#line 1695 "parser.tab.c"
     break;
 
   case 70: /* fator: MENOS fator  */
-#line 385 "language01.y"
+#line 449 "language01.y"
                                        {
+                // Verifica se o operando é numérico
+                if (!is_numeric_type((yyvsp[0].attr).tipo)) {
+                    printf("ERRO SEMÂNTICO: Operador unário '-' requer operando numérico na linha %d\n", line_number);
+                }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                resultado.tipo = (yyvsp[0].attr).tipo; // Mantém o tipo do operando
                 fprintf(codigo_3_enderecos, "%s = -%s\n", resultado.nome, (yyvsp[0].attr).nome);
                 (yyval.attr) = resultado;
             }
-#line 1643 "parser.tab.c"
+#line 1712 "parser.tab.c"
     break;
 
   case 71: /* ativacao: ID ABREPARENTESES args FECHAPARENTESES  */
-#line 394 "language01.y"
+#line 464 "language01.y"
             {
-                Symbol *sym = lookup_symbol(current_table, (yyvsp[-3].string));
+                Symbol *sym = procurarSimbolo(current_table, (yyvsp[-3].string));
                 if (sym == NULL) {
-                    yyerror("Função não declarada");
+                    yyerror("Função não declarada"); yyerrok;
+                } else if (sym->type != TYPE_FUNCTION) {
+                    printf("ERRO SEMÂNTICO: '%s' não é uma função na linha %d\n", (yyvsp[-3].string), line_number);
                 }
+                
                 Atributo resultado;
                 resultado.nome = new_temp();
+                // O tipo do resultado é o tipo de retorno da função
                 (yyval.attr) = resultado;
                 fprintf(codigo_3_enderecos, "%s = call %s %d\n", resultado.nome, strdup((yyvsp[-3].string)), (yyvsp[-1].param_counter));
                 free((yyvsp[-3].string));
             }
-#line 1659 "parser.tab.c"
+#line 1732 "parser.tab.c"
     break;
 
   case 72: /* args: argLista  */
-#line 407 "language01.y"
+#line 481 "language01.y"
                 { (yyval.param_counter) = (yyvsp[0].param_counter); }
-#line 1665 "parser.tab.c"
+#line 1738 "parser.tab.c"
     break;
 
   case 73: /* args: %empty  */
-#line 408 "language01.y"
+#line 482 "language01.y"
        { (yyval.param_counter) = 0; }
-#line 1671 "parser.tab.c"
+#line 1744 "parser.tab.c"
     break;
 
   case 74: /* argLista: expr  */
-#line 411 "language01.y"
+#line 485 "language01.y"
                   {
                 fprintf(codigo_3_enderecos, "param %s\n", (yyvsp[0].attr).nome);
                 (yyval.param_counter) = 1;
             }
-#line 1680 "parser.tab.c"
+#line 1753 "parser.tab.c"
     break;
 
   case 75: /* argLista: argLista VIRGULA expr  */
-#line 415 "language01.y"
+#line 489 "language01.y"
                                     {
                 fprintf(codigo_3_enderecos, "param %s\n", (yyvsp[0].attr).nome);
                 (yyval.param_counter) = (yyvsp[-2].param_counter) + 1;
             }
-#line 1689 "parser.tab.c"
+#line 1762 "parser.tab.c"
     break;
 
   case 76: /* var: ID  */
-#line 423 "language01.y"
+#line 497 "language01.y"
             {
-                Symbol *sym = lookup_symbol(current_table, (yyvsp[0].string));
+                Symbol *sym = procurarSimbolo(current_table, (yyvsp[0].string));
                 if (sym == NULL) {
                     printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", (yyvsp[0].string));
                 }
                 Atributo resultado;
                 resultado.nome = strdup((yyvsp[0].string));
+                resultado.tipo = sym ? sym->type : TYPE_ERROR;
                 (yyval.attr) = resultado;
-
+                free((yyvsp[0].string));
             }
-#line 1704 "parser.tab.c"
+#line 1778 "parser.tab.c"
     break;
 
   case 77: /* var: ID ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  */
-#line 434 "language01.y"
+#line 509 "language01.y"
             {
-                Symbol *sym = lookup_symbol(current_table, (yyvsp[-4].string));
+                Symbol *sym = procurarSimbolo(current_table, (yyvsp[-4].string));
                 if (sym == NULL) {
                     printf("ERRO: Identificador '%s' não foi declarado ou está fora de escopo\n", (yyvsp[-4].string));
-                } else if (strstr(sym->type, "array") == NULL) {
+                } else if (!is_array_type(sym->type)) {
                     printf("ERRO: '%s' não é um array\n", (yyvsp[-4].string));
+                } else {
+                    // Verifica se o índice é inteiro
+                    if ((yyvsp[-2].attr).tipo != TYPE_INT && (yyvsp[-2].attr).tipo != TYPE_CHAR) {
+                        printf("ERRO SEMÂNTICO: Índice de array deve ser inteiro, encontrado %s na linha %d\n", 
+                               symbol_type_to_string((yyvsp[-2].attr).tipo), line_number);
+                    }
                 }
+                
                 Atributo resultado;
-                resultado.nome = strdup((yyvsp[-4].string));
+                
+                if ((yyvsp[0].attr).nome != NULL && strlen((yyvsp[0].attr).nome) > 0) {
+                    // Array multidimensional
+                    
+                    char* endereco_final = new_temp();
+                    char* indices_extras = strdup((yyvsp[0].attr).nome);
+                    char* primeiro_extra = strtok(indices_extras, ",");
+                    
+                    if (primeiro_extra) {
+                        // arr[i][j] - caso bidimensional
+                        char* mult_temp = new_temp();
+                        fprintf(codigo_3_enderecos, "%s = %s * 10\n", mult_temp, (yyvsp[-2].attr).nome); // Assume tamanho 10 por padrão
+                        fprintf(codigo_3_enderecos, "%s = %s + %s\n", endereco_final, mult_temp, primeiro_extra);
+                        
+                        // Se há mais dimensões
+                        char* proximo_indice;
+                        while ((proximo_indice = strtok(NULL, ",")) != NULL) {
+                            char* mult_temp2 = new_temp();
+                            char* soma_temp = new_temp();
+                            fprintf(codigo_3_enderecos, "%s = %s * 10\n", mult_temp2, endereco_final);
+                            fprintf(codigo_3_enderecos, "%s = %s + %s\n", soma_temp, mult_temp2, proximo_indice);
+                            endereco_final = soma_temp;
+                        }
+                    }
+                    
+                    // Para retornar, criamos um nome que indica array com endereço calculado
+                    resultado.nome = (char*)malloc(strlen((yyvsp[-4].string)) + strlen(endereco_final) + 10);
+                    sprintf(resultado.nome, "%s[%s]", (yyvsp[-4].string), endereco_final);
+                    free(indices_extras);
+                } else {
+                    // Array unidimensional: arr[i]
+                    resultado.nome = (char*)malloc(strlen((yyvsp[-4].string)) + strlen((yyvsp[-2].attr).nome) + 10);
+                    sprintf(resultado.nome, "%s[%s]", (yyvsp[-4].string), (yyvsp[-2].attr).nome);
+                }
+                
+                // Para acesso a array, o tipo é o tipo base do array
+                resultado.tipo = sym ? get_base_type(sym->type) : TYPE_ERROR;
                 (yyval.attr) = resultado;
                 free((yyvsp[-4].string));
             }
-#line 1721 "parser.tab.c"
+#line 1838 "parser.tab.c"
+    break;
+
+  case 78: /* abreExpFecha: ABRECOLCHETE expr FECHACOLCHETE abreExpFecha  */
+#line 566 "language01.y"
+            {
+                // Concatena os índices para arrays multidimensionais
+                if ((yyvsp[0].attr).nome != NULL && strlen((yyvsp[0].attr).nome) > 0) {
+                    // Há mais índices após este
+                    char* temp = (char*)malloc(strlen((yyvsp[-2].attr).nome) + strlen((yyvsp[0].attr).nome) + 2);
+                    sprintf(temp, "%s,%s", (yyvsp[-2].attr).nome, (yyvsp[0].attr).nome);
+                    (yyval.attr).nome = temp;
+                } else {
+                    // Este é o último índice
+                    (yyval.attr).nome = strdup((yyvsp[-2].attr).nome);
+                }
+            }
+#line 1855 "parser.tab.c"
+    break;
+
+  case 79: /* abreExpFecha: %empty  */
+#line 579 "language01.y"
+            {
+                (yyval.attr).nome = strdup(""); // String vazia para indicar fim
+            }
+#line 1863 "parser.tab.c"
     break;
 
 
-#line 1725 "parser.tab.c"
+#line 1867 "parser.tab.c"
 
       default: break;
     }
@@ -1914,7 +2056,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 450 "language01.y"
+#line 583 "language01.y"
 
 
 void yyerror(const char *s) {
@@ -1941,7 +2083,7 @@ int main(int argc, char **argv) {
     }
 
     // Inicializa a tabela de símbolos
-    init_symbol_table();
+    iniciarTabelaDeSimbolos();
 
     yyin = arq_compilado;
     if (yyparse() == 0) {
@@ -1951,11 +2093,11 @@ int main(int argc, char **argv) {
         printf("Código de 3 endereços gerado em: codigo_3_enderecos.txt\n");
         
         // Imprime a tabela de símbolos final
-        print_all_symbol_tables(current_table);
+        imprimirTodasTabela(current_table);
     }
 
     // Libera memória da tabela de símbolos
-    cleanup_symbol_table();
+    limparTabela();
     
     // Fecha os arquivos
     fclose(arq_compilado);

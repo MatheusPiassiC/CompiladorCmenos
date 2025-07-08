@@ -902,12 +902,12 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 87 "language01.l"
-{  column_number+=yyleng; return NUMINT;}
+{  column_number+=yyleng; yylval.integer = atoi(yytext); return NUMINT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 88 "language01.l"
-{  column_number+=yyleng; return NUMFLOAT;}
+{  column_number+=yyleng; yylval.real = atof(yytext); return NUMFLOAT;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP

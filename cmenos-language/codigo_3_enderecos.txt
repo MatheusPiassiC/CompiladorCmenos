@@ -1,23 +1,31 @@
-t0 = x < y
-l0:
-ifFalse t0 goto l1
-t1 = x + z
-x = t1
-t2 = x >= w
-ifFalse t2 goto l2
-t3 = x + p
-x = t3
-goto l3
-l2:
-t4 = x - p
-x = t4
-l3:
-goto l0
-l1:
-param x
-param y
-param z
-param w
-param p
-t5 = call funcao 5
-x = t5
+a[5] = 10
+a[i] = 20
+t1 = 1 * 10
+t0 = t1 + 2
+b[t0] = 30
+t3 = i * 10
+t2 = t3 + j
+b[t2] = 40
+t5 = 0 * 10
+t4 = t5 + 1
+t6 = t4 * 10
+t7 = t6 + 2
+c[t7] = 50
+t9 = i * 10
+t8 = t9 + j
+t10 = t8 * 10
+t11 = t10 + k
+c[t11] = 60
+t12 = i + 1
+a[t12] = 70
+t13 = i * 2
+t14 = j - 1
+t16 = t13 * 10
+t15 = t16 + t14
+b[t15] = 80
+t17 = j + k
+t19 = i * 10
+t18 = t19 + t17
+t20 = t18 * 10
+t21 = t20 + 2
+c[t21] = 90

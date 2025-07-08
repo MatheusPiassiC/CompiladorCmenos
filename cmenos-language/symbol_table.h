@@ -7,37 +7,62 @@
 
 #define HASH_TABLE_SIZE 211
 
+// Enumeração para tipos básicos
+typedef enum {
+    TYPE_INT,
+    TYPE_FLOAT,
+    TYPE_CHAR,
+    TYPE_VOID,
+    TYPE_INT_ARRAY,
+    TYPE_FLOAT_ARRAY,
+    TYPE_CHAR_ARRAY,
+    TYPE_FUNCTION,
+    TYPE_STRUCT,
+    TYPE_ERROR
+} SymbolType;
+
 // Estrutura para um símbolo na tabela
 typedef struct Symbol {
-    char *name;                 // Nome do identificador
-    char *type;                 // Tipo de dado (string)
-    int offset;                 // Offset/endereço relativo
-    struct Symbol *next;        // Próximo símbolo na lista (para colisões)
+    char *name;
+    char *type_string;      // String original do tipo (para compatibilidade)
+    SymbolType type;        // Tipo enumerado para análise semântica
+    int offset;
+    int array_size;         // Para arrays - tamanho
+    struct Symbol *next;
 } Symbol;
 
 // Estrutura para a tabela de símbolos
 typedef struct SymbolTable {
-    Symbol *table[HASH_TABLE_SIZE];     // Array de ponteiros para símbolos
-    struct SymbolTable *parent;         // Ponteiro para tabela pai (escopo externo)
-    struct SymbolTable *next_scope;     // Ponteiro para próxima tabela na ordem de criação
-    int next_offset;                    // Próximo offset disponível
+    Symbol *table[HASH_TABLE_SIZE];
+    struct SymbolTable *parent;
+    struct SymbolTable *next_scope;  // Ponteiro para próxima tabela na ordem de criação
+    int next_offset;
 } SymbolTable;
 
 // Variável global da tabela de símbolos atual
 extern SymbolTable *current_table;
 
 // Protótipos das funções
-SymbolTable* create_symbol_table(SymbolTable *parent);
-void destroy_symbol_table(SymbolTable *table);
+SymbolTable* criarTabelaSimbolos(SymbolTable *parent);
+void destruirTabela(SymbolTable *table);
 unsigned int hash_function(const char *name);
-int insert_symbol(SymbolTable *table, const char *name, const char *type);
-Symbol* lookup_symbol(SymbolTable *table, const char *name);
-Symbol* lookup_symbol_current_scope(SymbolTable *table, const char *name);
-void enter_scope();
-void exit_scope();
-void print_symbol_table(SymbolTable *table);
-void print_all_symbol_tables(SymbolTable *table);
-void init_symbol_table();
-void cleanup_symbol_table();
+int inserirSimbolo(SymbolTable *table, const char *name, const char *type);
+Symbol* procurarSimbolo(SymbolTable *table, const char *name);
+Symbol* procuraEscopoAtual(SymbolTable *table, const char *name);
+void enter_scope(void);
+void exit_scope(void);
+void imprimirTabela(SymbolTable *table);
+void imprimirTodasTabela(SymbolTable *table);
+void iniciarTabelaDeSimbolos(void);
+void limparTabela(void);
+
+// Funções para análise semântica de tipos
+SymbolType stringParaTipo(const char *type_str);
+const char* symbol_type_to_string(SymbolType type);
+SymbolType get_base_type(SymbolType type);
+int is_numeric_type(SymbolType type);
+int is_array_type(SymbolType type);
+int types_compatible(SymbolType type1, SymbolType type2);
+SymbolType get_operation_result_type(SymbolType type1, SymbolType type2, const char *op);
 
 #endif 
